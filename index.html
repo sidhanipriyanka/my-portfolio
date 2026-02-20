@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Priyanka Sidhani — Senior Program Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Syne:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+--bg: #2c2520;
+--bg2: #342c26;
+--surface: #3b322a;
+--surface2: #443a31;
+--border: #504436;
+    --text: #f0ece4;
+    --text-dim: #8a8a8a;
+    --accent: #e85d3a;
+    --accent2: #3dd68c;
+    --accent3: #f5c542;
+    --accent4: #6c8cff;
+    --nav-glass: rgba(10, 10, 10, 0.7);
+    --white: #ffffff;
+    --radius: 16px;
+    --radius-lg: 24px;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: var(--accent) var(--bg); }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.6s ease, color 0.6s ease;
+  }
+
+  body.about-mode {
+    --bg: #fff8ec;
+    --bg2: #fff1da;
+    --surface: #ffffff;
+    --surface2: #fff9ef;
+    --border: #ffd9ae;
+    --text: #2a143d;
+    --text-dim: #7f648e;
+    --accent: #ff6f3d;
+    --accent2: #1ac7a4;
+    --accent3: #ffbe0b;
+    --accent4: #4f7dff;
+    --nav-glass: rgba(255, 248, 236, 0.88);
+  }
+
+  ::selection { background: var(--accent); color: var(--bg); }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 10000;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 20px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    backdrop-filter: blur(20px) saturate(1.4);
+    background: var(--nav-glass);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: 'Instrument Serif', serif; font-size: 1.4rem; color: var(--text); }
+  .logo span { color: var(--accent); }
+  .nav-left { display: flex; align-items: center; gap: 18px; }
+  .mode-switch {
+    display: inline-flex;
+    gap: 6px;
+    border: 1px solid var(--border);
+    padding: 4px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.03);
+  }
+  .mode-btn {
+    border: 0;
+    background: transparent;
+    color: var(--text-dim);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .mode-btn.active {
+    background: var(--accent);
+    color: #fff;
+  }
+  .nav-links { display: flex; gap: 36px; list-style: none; align-items: center; }
+  .nav-links a {
+    text-decoration: none; color: var(--text-dim); font-size: 0.82rem; font-weight: 500;
+    letter-spacing: 0.04em; text-transform: uppercase; transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  body.about-mode .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    padding: 10px 24px; background: var(--accent); color: var(--bg) !important;
+    border-radius: 100px; font-weight: 700; font-size: 0.78rem !important;
+    transition: all 0.3s;
+  }
+  .nav-cta:hover { background: var(--white) !important; transform: scale(1.05); }
+  #about-nav { display: none; }
+  .about-content { display: none; }
+  body.about-mode .about-content { display: block; }
+  body.about-mode .work-content { display: none; }
+  body.about-mode #work-nav { display: none; }
+  body.about-mode #about-nav { display: flex; }
+  body.about-mode .nav-cta { display: none; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+    padding: 160px 48px 80px; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(232,93,58,0.08) 0%, transparent 70%);
+    border-radius: 50%; pointer-events: none;
+  }
+  .hero::after {
+    content: ''; position: absolute; bottom: -100px; left: -150px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(61,214,140,0.05) 0%, transparent 70%);
+    border-radius: 50%; pointer-events: none;
+  }
+  .hero-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 32px; position: relative; z-index: 1;
+  }
+  .hero-location {
+    font-family: 'Space Mono', monospace; font-size: 0.75rem;
+    color: var(--text-dim); letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 20px; border: 1px solid var(--border); border-radius: 100px;
+    font-size: 0.78rem; color: var(--accent2); font-weight: 600;
+  }
+  .hero-badge .pulse {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--accent2);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50% { opacity:0.5; transform:scale(1.3); }
+  }
+  .hero-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(3.5rem, 8vw, 8rem); font-weight: 400;
+    line-height: 0.95; letter-spacing: -0.04em; margin-bottom: 40px;
+    position: relative; z-index: 1; max-width: 1100px;
+  }
+  .hero-title .serif-italic { font-style: italic; color: var(--accent); }
+  .hero-title .outline-text { -webkit-text-stroke: 1.5px var(--text); color: transparent; }
+  .hero-title sup {
+    font-family: 'Syne', sans-serif; font-size: 0.2em;
+    vertical-align: super; color: var(--text-dim);
+  }
+  .hero-bottom {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    position: relative; z-index: 1; max-width: 1100px;
+  }
+  .hero-desc {
+    max-width: 520px; font-size: 1.05rem; line-height: 1.75; color: var(--text-dim);
+  }
+  .hero-desc strong { color: var(--text); font-weight: 600; }
+  .hero-stats { display: flex; gap: 48px; }
+  .stat { text-align: right; }
+  .stat-value {
+    font-family: 'Instrument Serif', serif; font-size: 3rem;
+    font-weight: 400; line-height: 1; color: var(--white);
+  }
+  .stat-value .accent { color: var(--accent); }
+  .stat-value .green { color: var(--accent2); }
+  .stat-value .gold { color: var(--accent3); }
+  .stat-label {
+    font-family: 'Space Mono', monospace; font-size: 0.65rem;
+    color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 6px;
+  }
+
+  /* ── MARQUEE ── */
+  .marquee-section {
+    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    padding: 28px 0; overflow: hidden;
+  }
+  .marquee-track {
+    display: flex; width: max-content; animation: marquee 40s linear infinite;
+  }
+  .marquee-item {
+    font-family: 'Instrument Serif', serif; font-size: 1.3rem; white-space: nowrap;
+    color: var(--text-dim); opacity: 0.35; display: flex; align-items: center;
+    gap: 32px; padding-right: 32px; transition: opacity 0.3s;
+  }
+  .marquee-item:hover { opacity: 0.7; }
+  .marquee-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+  /* ── SECTIONS ── */
+  section { padding: 120px 48px; max-width: 1400px; margin: 0 auto; }
+  .section-label {
+    font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent);
+    text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::before { content: ''; width: 24px; height: 1px; background: var(--accent); }
+  .section-title {
+    font-family: 'Instrument Serif', serif; font-size: clamp(2.2rem, 4.5vw, 4rem);
+    font-weight: 400; line-height: 1.05; letter-spacing: -0.03em;
+    margin-bottom: 60px; max-width: 700px;
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+
+  /* ── ABOUT ME ── */
+  #about-me {
+    position: relative;
+    overflow: hidden;
+  }
+  #about-me::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 10% 10%, rgba(255,111,61,0.16), transparent 40%),
+      radial-gradient(circle at 80% 20%, rgba(26,199,164,0.16), transparent 45%),
+      radial-gradient(circle at 60% 85%, rgba(79,125,255,0.14), transparent 42%);
+    pointer-events: none;
+  }
+  .about-shell {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(140deg, rgba(255,255,255,0.78), rgba(255,249,239,0.84));
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    padding: 32px;
+    box-shadow: 0 28px 60px rgba(153, 80, 25, 0.12);
+  }
+  .about-instructions {
+    font-size: 0.86rem;
+    color: var(--text-dim);
+    margin-bottom: 22px;
+  }
+  .about-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .about-tab {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--text);
+    background: transparent;
+    transition: all 0.25s ease;
+  }
+  .about-tab:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .about-tab.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .about-panel {
+    display: none;
+    animation: popPanel 0.55s cubic-bezier(0.16,1,0.3,1);
+  }
+  .about-panel.active { display: block; }
+  @keyframes popPanel {
+    from { opacity: 0; transform: translateY(14px) scale(0.99); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .about-panel-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+    margin-bottom: 8px;
+  }
+  .about-panel-copy {
+    color: var(--text-dim);
+    font-size: 0.92rem;
+    line-height: 1.7;
+    max-width: 900px;
+    margin-bottom: 22px;
+  }
+  .travel-location-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .location-tile {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: linear-gradient(140deg, rgba(255,255,255,0.72), rgba(255,248,236,0.6));
+    padding: 16px;
+    cursor: pointer;
+    text-align: left;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .location-tile:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.08);
+  }
+  .location-tile.active {
+    border-color: var(--accent);
+    background: linear-gradient(140deg, rgba(255,111,61,0.16), rgba(79,125,255,0.12));
+  }
+  .location-tile h4 {
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+  }
+  .location-tile p {
+    font-size: 0.73rem;
+    color: var(--text-dim);
+    line-height: 1.45;
+  }
+  .travel-stage {
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 16px;
+    background: linear-gradient(145deg, rgba(255,255,255,0.7), rgba(255,248,236,0.55));
+  }
+  .travel-stage-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .travel-stage-head h4 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.35rem;
+  }
+  .travel-count {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent4);
+  }
+  .travel-joke {
+    color: var(--text-dim);
+    font-size: 0.86rem;
+    margin-bottom: 14px;
+  }
+  .travel-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 14px;
+  }
+  .travel-card {
+    grid-column: span 4;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    min-height: 220px;
+    background: var(--surface2);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.1);
+    transform: translateY(22px) scale(0.985);
+    opacity: 0;
+    animation: liftIn 0.55s cubic-bezier(0.16,1,0.3,1) forwards;
+    animation-delay: calc(var(--i, 0) * 0.05s);
+  }
+  @keyframes liftIn {
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .travel-card img,
+  .travel-card video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.45s ease;
+  }
+  .travel-card:hover img,
+  .travel-card:hover video {
+    transform: scale(1.06);
+  }
+  .travel-card::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 45%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent);
+    pointer-events: none;
+  }
+  .travel-meta {
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    bottom: 12px;
+    z-index: 2;
+    color: #fff;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.45);
+  }
+  .travel-meta h4 {
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+  }
+  .travel-meta p {
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.88;
+  }
+  .travel-card.span-6 { grid-column: span 6; }
+  .travel-card.span-4 { grid-column: span 4; }
+  .vibe-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .vibe-card {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 18px;
+    padding: 24px;
+    min-height: 190px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+  .vibe-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+  }
+  .vibe-kicker {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent4);
+    margin-bottom: 14px;
+  }
+  .vibe-card h4 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+  }
+  .vibe-card p {
+    font-size: 0.84rem;
+    line-height: 1.65;
+    color: var(--text-dim);
+  }
+
+  /* ── CONTRIBUTIONS ── */
+  .contributions-grid { display: flex; flex-direction: column; gap: 2px; }
+  .contrib-row {
+    display: grid; grid-template-columns: 60px 1fr 200px 140px; gap: 24px;
+    align-items: center; padding: 28px 32px; background: var(--surface);
+    transition: all 0.4s; cursor: pointer; position: relative; overflow: hidden;
+  }
+  .contrib-row:first-child { border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+  .contrib-row:last-child { border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+  .contrib-row::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 0; transition: width 0.4s;
+  }
+  .contrib-row:nth-child(1)::before { background: var(--accent); }
+  .contrib-row:nth-child(2)::before { background: var(--accent2); }
+  .contrib-row:nth-child(3)::before { background: var(--accent3); }
+  .contrib-row:nth-child(4)::before { background: var(--accent4); }
+  .contrib-row:nth-child(5)::before { background: var(--accent); }
+  .contrib-row:hover::before { width: 4px; }
+  .contrib-row:hover { background: var(--surface2); transform: translateX(4px); }
+  .contrib-num { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--text-dim); }
+  .contrib-title { font-size: 1.05rem; font-weight: 600; line-height: 1.4; color: var(--text); }
+  .contrib-lp {
+    font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent2);
+    text-transform: uppercase; letter-spacing: 0.05em; text-align: right;
+  }
+  .contrib-impact { font-size: 0.82rem; color: var(--text-dim); text-align: right; }
+  .contrib-detail {
+    display: none; grid-column: 1 / -1; padding-top: 20px; margin-top: 16px;
+    border-top: 1px solid var(--border); font-size: 0.88rem; line-height: 1.7; color: var(--text-dim);
+  }
+  .contrib-row.expanded .contrib-detail { display: block; }
+  .expand-hint {
+    font-family: 'Space Mono', monospace; font-size: 0.65rem;
+    color: var(--text-dim); opacity: 0; transition: opacity 0.3s;
+  }
+  .contrib-row:hover .expand-hint { opacity: 1; }
+
+  /* ── EXPERIENCE ── */
+  .exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .exp-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 36px; transition: all 0.4s;
+    position: relative; overflow: hidden;
+  }
+  .exp-card::after { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+  .exp-card:nth-child(1)::after { background: linear-gradient(90deg, var(--accent), var(--accent3)); }
+  .exp-card:nth-child(2)::after { background: linear-gradient(90deg, var(--accent2), var(--accent4)); }
+  .exp-card:nth-child(3)::after { background: linear-gradient(90deg, var(--accent3), var(--accent)); }
+  .exp-card:nth-child(4)::after { background: linear-gradient(90deg, var(--accent4), var(--accent2)); }
+  .exp-card:hover {
+    border-color: rgba(232,93,58,0.3); transform: translateY(-4px);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+  }
+  .exp-card:first-child { grid-column: 1 / -1; }
+  .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+  .exp-role { font-family: 'Instrument Serif', serif; font-size: 1.6rem; color: var(--white); }
+  .exp-date {
+    font-family: 'Space Mono', monospace; font-size: 0.72rem; color: var(--accent);
+    padding: 6px 14px; border: 1px solid rgba(232,93,58,0.3); border-radius: 100px;
+  }
+  .exp-company { font-size: 0.9rem; font-weight: 600; color: var(--text-dim); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+  .exp-company .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--text-dim); }
+  .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .exp-bullets li { font-size: 0.88rem; line-height: 1.65; color: var(--text-dim); padding-left: 24px; position: relative; }
+  .exp-bullets li::before { content: ''; position: absolute; left: 0; top: 9px; width: 12px; height: 1px; background: var(--accent); }
+
+  /* ── BENTO GRID ── */
+  .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .bento-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 32px; transition: all 0.4s;
+    position: relative; overflow: hidden;
+  }
+  .bento-item:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 16px 48px rgba(0,0,0,0.3); }
+  .bento-item.span-2 { grid-column: span 2; }
+  .bento-item.span-full { grid-column: 1 / -1; }
+  .bento-item.accent-bg { background: var(--accent); border-color: var(--accent); }
+  .bento-item.accent-bg * { color: var(--bg) !important; }
+  .bento-item.accent-bg:hover { border-color: var(--white); }
+  .bento-item.green-bg { background: var(--accent2); border-color: var(--accent2); }
+  .bento-item.green-bg * { color: var(--bg) !important; }
+  .bento-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+  .bento-label {
+    font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--text-dim);
+    text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 10px;
+  }
+  .bento-heading {
+    font-family: 'Instrument Serif', serif; font-size: 1.4rem;
+    line-height: 1.3; color: var(--white); margin-bottom: 10px;
+  }
+  .bento-text { font-size: 0.85rem; line-height: 1.65; color: var(--text-dim); }
+
+  /* ── LP PILLS ── */
+  .lp-container { display: flex; flex-wrap: wrap; gap: 10px; }
+  .lp-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 20px; border: 1px solid var(--border); border-radius: 100px;
+    font-size: 0.82rem; color: var(--text); font-weight: 500; transition: all 0.3s;
+  }
+  .lp-pill:hover { border-color: var(--accent); background: rgba(232,93,58,0.08); transform: translateY(-2px); }
+  .lp-pill .lp-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .lp-pill:nth-child(1) .lp-dot{background:var(--accent)} .lp-pill:nth-child(2) .lp-dot{background:var(--accent2)}
+  .lp-pill:nth-child(3) .lp-dot{background:var(--accent3)} .lp-pill:nth-child(4) .lp-dot{background:var(--accent4)}
+  .lp-pill:nth-child(5) .lp-dot{background:var(--accent)} .lp-pill:nth-child(6) .lp-dot{background:var(--accent2)}
+  .lp-pill:nth-child(7) .lp-dot{background:var(--accent3)}
+
+  /* ── SKILLS COLS ── */
+  .skills-cols {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px;
+    background: var(--border); border-radius: var(--radius-lg); overflow: hidden;
+  }
+  .skill-col { background: var(--surface); padding: 28px 20px; text-align: center; transition: all 0.3s; }
+  .skill-col:hover { background: var(--surface2); }
+  .skill-col h4 {
+    font-family: 'Instrument Serif', serif; font-size: 1rem; color: var(--white);
+    margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border);
+  }
+  .skill-col .skill-list { display: flex; flex-direction: column; gap: 8px; }
+  .skill-col .skill-list span {
+    font-size: 0.75rem; color: var(--text-dim); padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.03); transition: color 0.2s;
+  }
+  .skill-col .skill-list span:hover { color: var(--text); }
+
+  /* ── CREDENTIALS ── */
+  .cred-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .cred-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 32px; transition: all 0.4s; text-align: center;
+  }
+  .cred-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+  .cred-emoji { font-size: 2.5rem; margin-bottom: 16px; }
+  .cred-card h4 { font-family: 'Instrument Serif', serif; font-size: 1.15rem; color: var(--white); margin-bottom: 6px; }
+  .cred-card p { font-size: 0.78rem; color: var(--text-dim); line-height: 1.5; }
+  .cred-year { font-family: 'Space Mono', monospace; font-size: 0.68rem; color: var(--accent); margin-top: 8px; }
+
+  /* ── AWARDS ── */
+  .awards-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+  .award-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 28px; text-align: center; transition: all 0.3s;
+  }
+  .award-item:hover { border-color: var(--accent3); transform: rotate(-1deg) translateY(-4px); }
+  .award-item .a-icon { font-size: 2rem; margin-bottom: 10px; }
+  .award-item h5 { font-family: 'Instrument Serif', serif; font-size: 1.05rem; color: var(--white); margin-bottom: 6px; }
+  .award-item p { font-size: 0.75rem; color: var(--text-dim); line-height: 1.5; }
+
+  /* ── CTA ── */
+  .cta-section {
+    text-align: center; padding: 160px 48px 120px; position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(232,93,58,0.06) 0%, transparent 60%);
+    border-radius: 50%; pointer-events: none;
+  }
+  .cta-title {
+    font-family: 'Instrument Serif', serif; font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 1; letter-spacing: -0.04em; margin-bottom: 24px; position: relative; z-index: 1;
+  }
+  .cta-title em { font-style: italic; color: var(--accent); }
+  .cta-desc {
+    font-size: 1.05rem; color: var(--text-dim); max-width: 500px;
+    margin: 0 auto 48px; line-height: 1.7; position: relative; z-index: 1;
+  }
+  .cta-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .cta-links a {
+    text-decoration: none; padding: 16px 36px; border-radius: 100px;
+    font-size: 0.88rem; font-weight: 700; transition: all 0.3s;
+  }
+  .cta-primary { background: var(--accent); color: var(--bg); }
+  .cta-primary:hover { background: var(--white); transform: translateY(-3px); box-shadow: 0 12px 36px rgba(232,93,58,0.25); }
+  .cta-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+  .cta-outline:hover { border-color: var(--text); background: var(--surface); transform: translateY(-3px); }
+  .cta-mono {
+    font-family: 'Space Mono', monospace; font-size: 0.78rem;
+    color: var(--text-dim); margin-top: 32px; position: relative; z-index: 1;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 32px 48px; border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  footer span { font-size: 0.72rem; color: var(--text-dim); }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a {
+    font-size: 0.72rem; color: var(--text-dim); text-decoration: none;
+    text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ── ANIMATIONS ── */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .hero-top { animation: slideIn 0.8s cubic-bezier(0.16,1,0.3,1) 0.2s both; }
+  .hero-title { animation: slideIn 0.8s cubic-bezier(0.16,1,0.3,1) 0.4s both; }
+  .hero-bottom { animation: slideIn 0.8s cubic-bezier(0.16,1,0.3,1) 0.6s both; }
+  @keyframes slideIn { from{opacity:0;transform:translateY(40px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .skills-cols { grid-template-columns: repeat(3, 1fr); }
+    .contrib-row { grid-template-columns: 40px 1fr 120px; }
+    .contrib-impact { display: none; }
+    .travel-location-grid { grid-template-columns: repeat(3, 1fr); }
+    .travel-grid { grid-template-columns: repeat(6, 1fr); }
+    .travel-card { grid-column: span 3; }
+    .travel-card.span-6, .travel-card.span-4 { grid-column: span 3; }
+    .vibe-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-left { gap: 10px; }
+    .mode-btn { padding: 8px 11px; font-size: 0.64rem; }
+    .nav-links { gap: 16px; }
+    .nav-links a { font-size: 0.72rem; }
+    .hero { padding: 120px 24px 60px; }
+    .hero-stats { gap: 24px; }
+    .stat-value { font-size: 2.2rem; }
+    section { padding: 80px 24px; }
+    .exp-grid { grid-template-columns: 1fr; }
+    .exp-card:first-child { grid-column: auto; }
+    .bento-grid { grid-template-columns: 1fr; }
+    .bento-item.span-2 { grid-column: auto; }
+    .skills-cols { grid-template-columns: repeat(2, 1fr); }
+    .cred-grid { grid-template-columns: 1fr; }
+    .awards-row { grid-template-columns: 1fr; }
+    .contrib-row { grid-template-columns: 1fr; gap: 8px; }
+    .contrib-num { display: none; }
+    .contrib-lp { text-align: left; }
+    .cta-section { padding: 100px 24px 80px; }
+    .hero-bottom { flex-direction: column; gap: 40px; }
+    .stat { text-align: left; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+    .about-shell { padding: 20px; border-radius: 20px; }
+    .about-tabs { gap: 8px; }
+    .about-tab { width: 100%; text-align: center; }
+    .travel-location-grid { grid-template-columns: 1fr 1fr; }
+    .travel-grid { grid-template-columns: 1fr 1fr; }
+    .travel-card { grid-column: span 1; }
+    .travel-card.span-6, .travel-card.span-4 { grid-column: span 1; }
+    .travel-card { min-height: 200px; }
+    .vibe-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .mode-switch { width: 100%; justify-content: space-between; }
+    .mode-btn { flex: 1; }
+    .nav-left { width: 100%; flex-direction: column; align-items: stretch; }
+    .nav-links { display: none; }
+    body.about-mode #about-nav { display: none; }
+    .hero-stats { flex-direction: column; gap: 16px; }
+    .skills-cols { grid-template-columns: 1fr; }
+    .hero-top { flex-direction: column; gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <div class="logo">PS<span>.</span></div>
+    <div class="mode-switch">
+      <button id="view-work" class="mode-btn active" type="button">Work</button>
+      <button id="view-about" class="mode-btn" type="button">About Me</button>
+    </div>
+  </div>
+  <ul class="nav-links" id="work-nav">
+    <li><a href="#contributions">Work</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#strengths">Strengths</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#credentials">Credentials</a></li>
+    <li><a href="#contact" class="nav-cta">Let's Talk</a></li>
+  </ul>
+  <ul class="nav-links" id="about-nav">
+    <li><a href="#about-me">About</a></li>
+    <li><a href="#" data-about-tab-link="travel">Travel</a></li>
+    <li><a href="#" data-about-tab-link="eat">Eat</a></li>
+    <li><a href="#" data-about-tab-link="music">Music</a></li>
+    <li><a href="#" data-about-tab-link="walk">Walk</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero work-content">
+  <div class="hero-top">
+    <span class="hero-location">Abu Dhabi, UAE</span>
+    <span class="hero-badge"><span class="pulse"></span> Open to opportunities — April 2026</span>
+  </div>
+  <h1 class="hero-title">
+    The <em class="serif-italic">program</em><sup>©</sup><br>
+    <span class="outline-text">manager</span> behind<br>
+    bold launches
+  </h1>
+  <div class="hero-bottom">
+    <p class="hero-desc">
+      <strong>Program Manager II at Amazon</strong> with 10 years building, scaling, and shipping across global marketplaces. From MENA expansion to AI-powered automation — I turn complex, cross-functional chaos into delivered results.
+    </p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-value"><span class="accent">10</span></div>
+        <div class="stat-label">Years at Amazon</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value"><span class="green">4×</span></div>
+        <div class="stat-label">Efficiency Gain</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value"><span class="gold">$2M</span>+</div>
+        <div class="stat-label">Revenue Impact</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-section work-content">
+  <div class="marquee-track">
+    <span class="marquee-item">Ownership <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Customer Obsession <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Deliver Results <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Invent & Simplify <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Bias for Action <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Dive Deep <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Earn Trust <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Think Big <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Highest Standards <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Ownership <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Customer Obsession <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Deliver Results <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Invent & Simplify <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Bias for Action <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Dive Deep <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Earn Trust <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Think Big <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Highest Standards <span class="marquee-dot"></span></span>
+  </div>
+</div>
+
+<!-- ABOUT ME -->
+<section id="about-me" class="about-content">
+  <div class="section-label reveal">Beyond Work</div>
+  <h2 class="section-title reveal">About <em>me</em> in motion</h2>
+  <div class="about-shell reveal">
+    <p class="about-instructions">Switch tabs for personality mode. Warning: may cause spontaneous trip planning, snack cravings, and playlist upgrades.</p>
+    <div class="about-tabs">
+      <button class="about-tab active" data-about-tab="travel">Travel with me</button>
+      <button class="about-tab" data-about-tab="eat">Eat with me</button>
+      <button class="about-tab" data-about-tab="music">Listen to music with me</button>
+      <button class="about-tab" data-about-tab="walk">Walk with me</button>
+    </div>
+
+    <div class="about-panel active" data-about-panel="travel">
+      <h3 class="about-panel-title">Travel with me</h3>
+      <p class="about-panel-copy">Pick a location tile and I will immediately open the evidence folder: photos, videos, and minor overconfidence about my camera skills.</p>
+      <div class="travel-location-grid">
+        <button class="location-tile active" type="button" data-location="Singapore">
+          <h4>Singapore</h4>
+          <p>City that runs on efficiency, rain, and suspiciously good food courts.</p>
+        </button>
+        <button class="location-tile" type="button" data-location="bali">
+          <h4>Bali</h4>
+          <p>Sunset therapy with coconut economics and scooter diplomacy.</p>
+        </button>
+        <button class="location-tile" type="button" data-location="seattle">
+          <h4>Seattle</h4>
+          <p>Coffee, clouds, and me pretending I can predict weather.</p>
+        </button>
+        <button class="location-tile" type="button" data-location="arizona">
+          <h4>Arizona</h4>
+          <p>Heat level: dramatic. Views level: illegally pretty.</p>
+        </button>
+        <button class="location-tile" type="button" data-location="thailand">
+          <h4>Thailand</h4>
+          <p>Street snacks, temple calm, and zero boring moments.</p>
+        </button>
+      </div>
+      <div class="travel-stage">
+        <div class="travel-stage-head">
+          <h4 id="travel-location-title">Singapore</h4>
+          <span id="travel-location-count" class="travel-count">0 moments loaded</span>
+        </div>
+        <p id="travel-location-joke" class="travel-joke">Loading photos and pretending I packed light.</p>
+        <div class="travel-grid" id="travel-gallery"></div>
+      </div>
+    </div>
+
+    <div class="about-panel" data-about-panel="eat">
+      <h3 class="about-panel-title">Eat with me</h3>
+      <p class="about-panel-copy">My food strategy is simple: if it smells amazing, I’m emotionally invested already.</p>
+      <div class="vibe-grid">
+        <article class="vibe-card"><div><div class="vibe-kicker">Comfort Pick</div><h4>Chaotic Brunch Buffets</h4><p>I arrive for one plate and leave with six plus a very ambitious iced coffee.</p></div></article>
+        <article class="vibe-card"><div><div class="vibe-kicker">Weekend Ritual</div><h4>Street Food Missions</h4><p>My maps app is mostly pinned with “must try this” places and very little self-control.</p></div></article>
+        <article class="vibe-card"><div><div class="vibe-kicker">Always Yes</div><h4>Dessert Diplomacy</h4><p>Disagreements can be solved with cake. This has not failed me yet.</p></div></article>
+      </div>
+    </div>
+
+    <div class="about-panel" data-about-panel="music">
+      <h3 class="about-panel-title">Listen to music with me</h3>
+      <p class="about-panel-copy">My playlist logic is scientific: one song for focus, one for dancing in the kitchen, one for dramatic window staring.</p>
+      <div class="vibe-grid">
+        <article class="vibe-card"><div><div class="vibe-kicker">Focus Mode</div><h4>Instrumental Brain Fuel</h4><p>For when my to-do list is spicy but my face must stay calm.</p></div></article>
+        <article class="vibe-card"><div><div class="vibe-kicker">Drive Mode</div><h4>Road Trip Anthems</h4><p>Windows down, snacks up, and chorus participation at unsafe confidence levels.</p></div></article>
+        <article class="vibe-card"><div><div class="vibe-kicker">Night Mode</div><h4>Soft Acoustic Reset</h4><p>The sonic equivalent of dim lights and pretending tomorrow starts next week.</p></div></article>
+      </div>
+    </div>
+
+    <div class="about-panel" data-about-panel="walk">
+      <h3 class="about-panel-title">Walk with me</h3>
+      <p class="about-panel-copy">Walking is where I solve problems, overthink snacks, and accidentally hit my step goal while making life plans.</p>
+      <div class="vibe-grid">
+        <article class="vibe-card"><div><div class="vibe-kicker">Morning</div><h4>Sunrise Startup</h4><p>Short walks where optimism is high and notifications are still asleep.</p></div></article>
+        <article class="vibe-card"><div><div class="vibe-kicker">Midday</div><h4>Debug Walk</h4><p>If something is stuck, I walk it out and suddenly become 40% wiser.</p></div></article>
+        <article class="vibe-card"><div><div class="vibe-kicker">Evening</div><h4>Cool-Down Loop</h4><p>Decompress, breathe, and wave to random dogs like old friends.</p></div></article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KEY CONTRIBUTIONS -->
+<section id="contributions" class="work-content">
+  <div class="section-label reveal">Key Contributions</div>
+  <h2 class="section-title reveal">Featured <em>impact</em> at Amazon — Q1 2025 Review</h2>
+  <div class="contributions-grid">
+    <div class="contrib-row reveal" onclick="this.classList.toggle('expanded')">
+      <span class="contrib-num">(01)</span>
+      <div>
+        <div class="contrib-title">Authored the Variation Theme Archival Strategy on UMP</div>
+        <span class="expand-hint">Click to expand →</span>
+        <div class="contrib-detail">Led the archival strategy for Variation Themes on the Unified Metadata Platform. Authored multiple 1-pagers to align cross-functional teams including Listings PE, PfV, PK, and Normalization. Created a filtration mechanism to archive duplicates and irrelevant VTs. Presented strategy to SPS and PK leadership. Collaborated with ASCS and Normalization teams to archive 44K PT-DVT combinations.</div>
+      </div>
+      <span class="contrib-lp">Ownership</span>
+      <span class="contrib-impact">44K archived</span>
+    </div>
+    <div class="contrib-row reveal reveal-delay-1" onclick="this.classList.toggle('expanded')">
+      <span class="contrib-num">(02)</span>
+      <div>
+        <div class="contrib-title">Built Audit Mechanism for DVT-to-Active Transitions</div>
+        <span class="expand-hint">Click to expand →</span>
+        <div class="contrib-detail">Evaluated 119K Deprecated Variation Themes for archival eligibility. Created an SOP for manual auditing and differentiation between irrelevant and necessary DVTs. Built a friction-free transition path for Selling Partners. Identified and transitioned 1,564 PT-DVTs to active status.</div>
+      </div>
+      <span class="contrib-lp">Bias for Action</span>
+      <span class="contrib-impact">1,564 transitioned</span>
+    </div>
+    <div class="contrib-row reveal reveal-delay-2" onclick="this.classList.toggle('expanded')">
+      <span class="contrib-num">(03)</span>
+      <div>
+        <div class="contrib-title">Cleaned Listing Templates — 110 Fewer Attributes Across PTs</div>
+        <span class="expand-hint">Click to expand →</span>
+        <div class="contrib-detail">Created a DVT Dashboard surfacing GMS, ASIN count, skew count, and units sold for each PT-DVT combination. Generated insights for 44K PT-DVTs with zero-GMS child skews. Secured leadership approval for archival and planned seller communications. Result: cleaner templates, 110 fewer attributes.</div>
+      </div>
+      <span class="contrib-lp">Deliver Results</span>
+      <span class="contrib-impact">110 attrs removed</span>
+    </div>
+    <div class="contrib-row reveal reveal-delay-3" onclick="this.classList.toggle('expanded')">
+      <span class="contrib-num">(04)</span>
+      <div>
+        <div class="contrib-title">Eliminated Redundant DVTs via CDP Mapping Strategy</div>
+        <span class="expand-hint">Click to expand →</span>
+        <div class="contrib-detail">Identified 60K duplicative PT-DVTs (e.g., COLOR vs COLOR_NAME). Developed a CDP library mapping approach to remove dependency on the normalization team. Secured leadership approval. Piloting on 7,000 PT-DVTs by Jan 2026, scaling to 20K eligible combinations.</div>
+      </div>
+      <span class="contrib-lp">Invent & Simplify</span>
+      <span class="contrib-impact">60K deduplicated</span>
+    </div>
+    <div class="contrib-row reveal" onclick="this.classList.toggle('expanded')">
+      <span class="contrib-num">(05)</span>
+      <div>
+        <div class="contrib-title">Program Managed Luxury Beauty Migration to UMP</div>
+        <span class="expand-hint">Click to expand →</span>
+        <div class="contrib-detail">Enabled Luxury Beauty launch on UMP by creating normalization rules for Luxury attribute values. Coordinated testing and launch across EU5 & US. Directly enabled major brand launches including Saks Fifth Avenue (Project Beluga). Resolved metadata defects blocking the Beluga launch.</div>
+      </div>
+      <span class="contrib-lp">Customer Obsession</span>
+      <span class="contrib-impact">EU5 + US launch</span>
+    </div>
+  </div>
+</section>
+
+<!-- SUPERPOWERS + GROWTH -->
+<section id="strengths" class="work-content">
+  <div class="section-label reveal">What Sets Me Apart</div>
+  <h2 class="section-title reveal">Superpowers</h2>
+  <div class="bento-grid">
+    <div class="bento-item accent-bg reveal">
+      <span class="bento-icon">🧠</span>
+      <div class="bento-label">Superpower</div>
+      <div class="bento-heading">Deep domain expertise in complex systems</div>
+      <div class="bento-text">Mastery of intricate areas like Variation Themes, metadata governance, and cross-marketplace catalog operations at global scale.</div>
+    </div>
+    <div class="bento-item reveal reveal-delay-1">
+      <span class="bento-icon">🤝</span>
+      <div class="bento-label">Superpower</div>
+      <div class="bento-heading">Trust-builder through knowledge sharing</div>
+      <div class="bento-text">Earns trust of peers and managers by fostering a learning environment and actively sharing institutional knowledge.</div>
+    </div>
+    <div class="bento-item reveal reveal-delay-2">
+      <span class="bento-icon">🎯</span>
+      <div class="bento-label">Superpower</div>
+      <div class="bento-heading">Graceful escalation handling</div>
+      <div class="bento-text">Navigates escalations with composure — creating clear actionable items and following through consistently.</div>
+    </div>
+    <div class="bento-item span-full reveal">
+      <div class="bento-label">Amazon Leadership Principles — Core Strengths</div>
+      <div class="lp-container" style="margin-top:16px;">
+        <span class="lp-pill"><span class="lp-dot"></span>Customer Obsession</span>
+        <span class="lp-pill"><span class="lp-dot"></span>Ownership</span>
+        <span class="lp-pill"><span class="lp-dot"></span>Invent & Simplify</span>
+        <span class="lp-pill"><span class="lp-dot"></span>Bias for Action</span>
+        <span class="lp-pill"><span class="lp-dot"></span>Deliver Results</span>
+        <span class="lp-pill"><span class="lp-dot"></span>Dive Deep</span>
+        <span class="lp-pill"><span class="lp-dot"></span>Earn Trust</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="work-content">
+  <div class="section-label reveal">Career</div>
+  <h2 class="section-title reveal">10 years of <em>progressive</em> growth</h2>
+  <div class="exp-grid">
+    <div class="exp-card reveal">
+      <div class="exp-header">
+        <div class="exp-role">Senior Program Manager</div>
+        <span class="exp-date">Oct 2022 → Present</span>
+      </div>
+      <div class="exp-company">Amazon <span class="dot"></span> Hyderabad, India</div>
+      <ul class="exp-bullets">
+        <li>Spearheaded marketplace expansion into 3 MENA countries — orchestrating 25+ members to launch 1,000+ categories 20% ahead of schedule, enabling $2M growth.</li>
+        <li>Architected AI-powered metadata auditing: 300 → 1,200 items/day (4×), defect resolution time down 65%.</li>
+        <li>Migrated 6 listing features across 8 engineering teams, 4 time zones — 100% on-time, 99% uptime.</li>
+        <li>8+ workflow optimizations via retrospectives, reducing overhead ~30% QoQ.</li>
+      </ul>
+    </div>
+    <div class="exp-card reveal">
+      <div class="exp-header">
+        <div class="exp-role">Program Manager</div>
+        <span class="exp-date">Jul 2021 → Oct 2022</span>
+      </div>
+      <div class="exp-company">Amazon <span class="dot"></span> Hyderabad</div>
+      <ul class="exp-bullets">
+        <li>Resolved 15,000+ Arabic translation errors across 3 markets, reducing localization issues ~40%.</li>
+        <li>Standardized 119K+ variations across 2,100 categories — framework adopted by 4+ teams.</li>
+        <li>Built onboarding program (20+ hrs, 3 modules) cutting ramp-up 80%, saving 250+ hrs/year.</li>
+      </ul>
+    </div>
+    <div class="exp-card reveal reveal-delay-1">
+      <div class="exp-header">
+        <div class="exp-role">Team Lead — Tech Config</div>
+        <span class="exp-date">Jul 2020 → Jul 2021</span>
+      </div>
+      <div class="exp-company">Amazon <span class="dot"></span> Hyderabad</div>
+      <ul class="exp-bullets">
+        <li>Managed 6 direct reports, 100% on-time delivery across compliance-critical processes.</li>
+        <li>Launched Amazon Seller Central in Sweden & Poland — 2 new EU markets.</li>
+      </ul>
+    </div>
+    <div class="exp-card reveal reveal-delay-2">
+      <div class="exp-header">
+        <div class="exp-role">Early Career Progression</div>
+        <span class="exp-date">Oct 2015 → Jul 2020</span>
+      </div>
+      <div class="exp-company">Amazon <span class="dot"></span> 5 Roles</div>
+      <ul class="exp-bullets">
+        <li>Customer Service → Seller Support (NA & EU) → Technical Configuration.</li>
+        <li>Led technical config for international marketplace launches.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="work-content">
+  <div class="section-label reveal">Toolkit</div>
+  <h2 class="section-title reveal">Skills & <em>capabilities</em></h2>
+  <div class="skills-cols reveal">
+    <div class="skill-col">
+      <h4>Program</h4>
+      <div class="skill-list">
+        <span>Program Governance</span><span>Agile / Scrum</span><span>Waterfall</span>
+        <span>Kanban</span><span>RAID Log</span><span>Release Mgmt</span>
+        <span>SLA Management</span><span>Change Mgmt</span><span>Budget Mgmt</span>
+      </div>
+    </div>
+    <div class="skill-col">
+      <h4>Strategy</h4>
+      <div class="skill-list">
+        <span>Product Strategy</span><span>Roadmap Dev</span><span>Go-to-Market</span>
+        <span>OKR / KPI</span><span>A/B Testing</span><span>Process Improvement</span><span>Business Case</span>
+      </div>
+    </div>
+    <div class="skill-col">
+      <h4>Leadership</h4>
+      <div class="skill-list">
+        <span>Cross-Functional Teams</span><span>Stakeholder Mgmt</span><span>Executive Comms</span>
+        <span>Vendor Mgmt</span><span>Seller Mgmt</span><span>Mentoring</span>
+      </div>
+    </div>
+    <div class="skill-col">
+      <h4>Tools</h4>
+      <div class="skill-list">
+        <span>JIRA</span><span>Asana</span><span>MS Project</span>
+        <span>Smartsheet</span><span>Seller Central</span><span>Vendor Central</span><span>Shopify</span>
+      </div>
+    </div>
+    <div class="skill-col">
+      <h4>Technical</h4>
+      <div class="skill-list">
+        <span>SQL</span><span>Excel (Advanced)</span><span>Data Analytics</span>
+        <span>AI/ML Integration</span><span>Process Automation</span><span>Metadata Mgmt</span><span>QA Coordination</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CREDENTIALS -->
+<section id="credentials" class="work-content">
+  <div class="section-label reveal">Credentials</div>
+  <h2 class="section-title reveal">Certifications & <em>education</em></h2>
+  <div class="cred-grid">
+    <div class="cred-card reveal"><div class="cred-emoji">📋</div><h4>PMP Certified</h4><p>Project Management Professional — PMI</p></div>
+    <div class="cred-card reveal reveal-delay-1"><div class="cred-emoji">📊</div><h4>Six Sigma Green Belt</h4><p>Process Excellence & Data-Driven Improvement</p></div>
+    <div class="cred-card reveal reveal-delay-2"><div class="cred-emoji">📐</div><h4>Instructional Design L1</h4><p>Learning & Development</p></div>
+    <div class="cred-card reveal"><div class="cred-emoji">🎓</div><h4>PG Diploma — Innovation Mgmt</h4><p>ICFAI University, Hyderabad</p><div class="cred-year">2019 — 2020</div></div>
+    <div class="cred-card reveal reveal-delay-1"><div class="cred-emoji">🔬</div><h4>B.Sc. Physics & CS</h4><p>Bhavans Vivekananda College</p><div class="cred-year">2013 — 2016</div></div>
+    <div class="cred-card reveal reveal-delay-2"><div class="cred-emoji">🌐</div><h4>Languages</h4><p>English · Hindi · Telugu</p></div>
+  </div>
+  <div class="awards-row">
+    <div class="award-item reveal"><div class="a-icon">🏆</div><h5>Door to Desk Award</h5><p>Amazon 2023 — MENA marketplace impact</p></div>
+    <div class="award-item reveal reveal-delay-1"><div class="a-icon">⭐</div><h5>Power Performer Q2 2024</h5><p>Quarterly excellence in program delivery</p></div>
+    <div class="award-item reveal reveal-delay-2"><div class="a-icon">🚀</div><h5>Multiple Program Awards</h5><p>Innovation & efficiency — 10-year tenure</p></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section work-content" id="contact">
+  <h2 class="cta-title reveal">Let's build<br>something <em>bold.</em></h2>
+  <p class="cta-desc reveal reveal-delay-1">Open to Senior Program Manager roles in the UAE. Available April 2026 — happy to discuss earlier start dates.</p>
+  <div class="cta-links reveal reveal-delay-2">
+    <a href="mailto:sidhanipriyanka@gmail.com" class="cta-primary">sidhanipriyanka@gmail.com</a>
+    <a href="tel:+971501738339" class="cta-outline">+971 50 173 8339</a>
+    <a href="https://linkedin.com/in/" target="_blank" class="cta-outline">LinkedIn</a>
+  </div>
+  <div class="cta-mono reveal reveal-delay-3">Abu Dhabi, UAE · Available with NOC</div>
+</div>
+
+<footer>
+  <span>© 2026 Priyanka Sidhani</span>
+  <div class="footer-links">
+    <a href="mailto:sidhanipriyanka@gmail.com">Email</a>
+    <a href="https://linkedin.com/in/" target="_blank">LinkedIn</a>
+    <a href="tel:+971501738339">Phone</a>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  const aboutTabs = document.querySelectorAll('[data-about-tab]');
+  const aboutPanels = document.querySelectorAll('[data-about-panel]');
+  const travelGallery = document.querySelector('#travel-gallery');
+  const travelLocationTitle = document.querySelector('#travel-location-title');
+  const travelLocationCount = document.querySelector('#travel-location-count');
+  const travelLocationJoke = document.querySelector('#travel-location-joke');
+  const locationTiles = document.querySelectorAll('.location-tile');
+  const travelMediaByLocation = {
+    Singapore: [
+      "Singapore/WhatsApp Image 2026-02-21 at 03.10.42 (1).jpeg",
+      "Singapore/WhatsApp Image 2026-02-21 at 03.10.42.jpeg",
+      "Singapore/WhatsApp Image 2026-02-21 at 03.10.43 (1).jpeg",
+      "Singapore/WhatsApp Image 2026-02-21 at 03.10.43 (10).jpeg",
+      "Singapore/WhatsApp Image 2026-02-21 at 03.10.43 (11).jpeg",
+      "Singapore/WhatsApp Image 2026-02-21 at 03.10.43 (12).jpeg",
+      "Singapore/WhatsApp Image 2026-02-21 at 03.10.43 (13).jpeg",
+      "Singapore/WhatsApp Image 2026-02-21 at 03.10.43 (2).jpeg",
+      "Singapore/WhatsApp Image 2026-02-21 at 03.10.43 (3).jpeg",
+      "Singapore/WhatsApp Image 2026-02-21 at 03.10.43 (4).jpeg",
+      "Singapore/WhatsApp Image 2026-02-21 at 03.10.43 (5).jpeg",
+      "Singapore/WhatsApp Image 2026-02-21 at 03.10.43 (6).jpeg",
+      "Singapore/WhatsApp Image 2026-02-21 at 03.10.43 (7).jpeg",
+      "Singapore/WhatsApp Image 2026-02-21 at 03.10.43 (8).jpeg",
+      "Singapore/WhatsApp Image 2026-02-21 at 03.10.43 (9).jpeg",
+      "Singapore/WhatsApp Image 2026-02-21 at 03.10.43.jpeg"
+    ],
+    arizona: [
+      "arizona/WhatsApp Image 2026-02-21 at 02.58.04 (1).jpeg",
+      "arizona/WhatsApp Image 2026-02-21 at 02.58.04 (2).jpeg",
+      "arizona/WhatsApp Image 2026-02-21 at 02.58.04.jpeg",
+      "arizona/WhatsApp Image 2026-02-21 at 02.58.05 (1).jpeg",
+      "arizona/WhatsApp Image 2026-02-21 at 02.58.05 (2).jpeg",
+      "arizona/WhatsApp Image 2026-02-21 at 02.58.05 (3).jpeg",
+      "arizona/WhatsApp Image 2026-02-21 at 02.58.05 (4).jpeg",
+      "arizona/WhatsApp Image 2026-02-21 at 02.58.05 (5).jpeg",
+      "arizona/WhatsApp Image 2026-02-21 at 02.58.05 (6).jpeg",
+      "arizona/WhatsApp Image 2026-02-21 at 02.58.05 (7).jpeg",
+      "arizona/WhatsApp Image 2026-02-21 at 02.58.05 (8).jpeg",
+      "arizona/WhatsApp Image 2026-02-21 at 02.58.05 (9).jpeg",
+      "arizona/WhatsApp Image 2026-02-21 at 02.58.05.jpeg",
+      "arizona/arizona.jpeg"
+    ],
+    bali: [
+      "bali/WhatsApp Image 2026-02-21 at 03.20.43.jpeg",
+      "bali/WhatsApp Image 2026-02-21 at 03.20.44 (1).jpeg",
+      "bali/WhatsApp Image 2026-02-21 at 03.20.44.jpeg",
+      "bali/WhatsApp Image 2026-02-21 at 03.20.45.jpeg",
+      "bali/WhatsApp Image 2026-02-21 at 03.20.46 (1).jpeg",
+      "bali/WhatsApp Image 2026-02-21 at 03.20.46.jpeg",
+      "bali/WhatsApp Image 2026-02-21 at 03.20.47 (1).jpeg",
+      "bali/WhatsApp Image 2026-02-21 at 03.20.47.jpeg",
+      "bali/WhatsApp Image 2026-02-21 at 03.20.48 (1).jpeg",
+      "bali/WhatsApp Image 2026-02-21 at 03.20.48.jpeg",
+      "bali/WhatsApp Image 2026-02-21 at 03.20.49 (1).jpeg",
+      "bali/WhatsApp Image 2026-02-21 at 03.20.49.jpeg",
+      "bali/WhatsApp Image 2026-02-21 at 03.20.50 (1).jpeg",
+      "bali/WhatsApp Image 2026-02-21 at 03.20.50.jpeg",
+      "bali/WhatsApp Image 2026-02-21 at 03.20.51 (1).jpeg",
+      "bali/WhatsApp Image 2026-02-21 at 03.20.51.jpeg",
+      "bali/WhatsApp Image 2026-02-21 at 03.20.52 (1).jpeg",
+      "bali/WhatsApp Image 2026-02-21 at 03.20.52.jpeg",
+      "bali/WhatsApp Video 2026-02-21 at 03.20.53.mp4"
+    ],
+    seattle: [
+      "seattle/WhatsApp Image 2026-02-21 at 03.02.45 (1).jpeg",
+      "seattle/WhatsApp Image 2026-02-21 at 03.02.45 (2).jpeg",
+      "seattle/WhatsApp Image 2026-02-21 at 03.02.45 (3).jpeg",
+      "seattle/WhatsApp Image 2026-02-21 at 03.02.45 (4).jpeg",
+      "seattle/WhatsApp Image 2026-02-21 at 03.02.45 (5).jpeg",
+      "seattle/WhatsApp Image 2026-02-21 at 03.02.45.jpeg",
+      "seattle/WhatsApp Image 2026-02-21 at 03.02.46 (1).jpeg",
+      "seattle/WhatsApp Image 2026-02-21 at 03.02.46 (2).jpeg",
+      "seattle/WhatsApp Image 2026-02-21 at 03.02.46 (3).jpeg",
+      "seattle/WhatsApp Image 2026-02-21 at 03.02.46 (4).jpeg",
+      "seattle/WhatsApp Image 2026-02-21 at 03.02.46 (5).jpeg",
+      "seattle/WhatsApp Image 2026-02-21 at 03.02.46.jpeg",
+      "seattle/seattle.mp4"
+    ],
+    thailand: [
+      "thailand/WhatsApp Image 2026-02-21 at 03.26.17 (1).jpeg",
+      "thailand/WhatsApp Image 2026-02-21 at 03.26.17 (2).jpeg",
+      "thailand/WhatsApp Image 2026-02-21 at 03.26.17 (3).jpeg",
+      "thailand/WhatsApp Image 2026-02-21 at 03.26.17 (4).jpeg",
+      "thailand/WhatsApp Image 2026-02-21 at 03.26.17 (5).jpeg",
+      "thailand/WhatsApp Image 2026-02-21 at 03.26.17 (6).jpeg",
+      "thailand/WhatsApp Image 2026-02-21 at 03.26.17.jpeg",
+      "thailand/WhatsApp Video 2026-02-21 at 03.26.20 (1).mp4",
+      "thailand/WhatsApp Video 2026-02-21 at 03.26.20.mp4"
+    ]
+  };
+  const travelQuips = {
+    Singapore: "The city is so clean I felt guilty for dropping eye contact.",
+    bali: "In Bali even my to-do list wanted a spa day.",
+    seattle: "Seattle gave me coffee confidence and weather humility.",
+    arizona: "Arizona is where sunscreen becomes a full-time job.",
+    thailand: "Thailand delivered flavor, color, and a weekly step goal in one day."
+  };
+  const travelCaptionPool = [
+    "Proof I left the hotel",
+    "Camera roll, no regrets",
+    "Peak tourist behavior",
+    "Postcard energy detected",
+    "Mood: roaming",
+    "Main character walk",
+    "Snack break nearby",
+    "Unplanned but iconic",
+    "Yes, I took 47 versions"
+  ];
+  const toTitleCase = (value) => value.charAt(0).toUpperCase() + value.slice(1);
+  const chooseSpanClass = (index) => (index % 7 === 0 ? 'span-6' : (index % 3 === 0 ? 'span-6' : 'span-4'));
+  const renderTravelLocation = (location) => {
+    const items = travelMediaByLocation[location] || [];
+    if (!travelGallery) return;
+    locationTiles.forEach(tile => tile.classList.toggle('active', tile.dataset.location === location));
+    travelLocationTitle.textContent = toTitleCase(location);
+    travelLocationCount.textContent = `${items.length} moments loaded`;
+    travelLocationJoke.textContent = travelQuips[location] || "Travel mode is active and my backpack is emotionally overpacked.";
+
+    travelGallery.innerHTML = items.map((src, index) => {
+      const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.mov') || src.toLowerCase().endsWith('.m4v');
+      const mediaElement = isVideo
+        ? `<video src="${encodeURI(src)}" controls preload="metadata" playsinline></video>`
+        : `<img src="${encodeURI(src)}" alt="${toTitleCase(location)} memory ${index + 1}">`;
+      const caption = travelCaptionPool[index % travelCaptionPool.length];
+      return `<article class="travel-card ${chooseSpanClass(index)}" style="--i:${index};">${mediaElement}<div class="travel-meta"><h4>${toTitleCase(location)}</h4><p>${caption}</p></div></article>`;
+    }).join('');
+  };
+
+  const setAboutTab = (tabName) => {
+    aboutTabs.forEach(tab => tab.classList.toggle('active', tab.dataset.aboutTab === tabName));
+    aboutPanels.forEach(panel => panel.classList.toggle('active', panel.dataset.aboutPanel === tabName));
+    if (tabName === 'travel') renderTravelLocation(document.querySelector('.location-tile.active')?.dataset.location || 'Singapore');
+  };
+  aboutTabs.forEach(tab => {
+    tab.addEventListener('click', () => setAboutTab(tab.dataset.aboutTab));
+  });
+  locationTiles.forEach(tile => {
+    tile.addEventListener('click', () => renderTravelLocation(tile.dataset.location));
+  });
+  renderTravelLocation(document.querySelector('.location-tile.active')?.dataset.location || 'Singapore');
+
+  const viewWorkBtn = document.querySelector('#view-work');
+  const viewAboutBtn = document.querySelector('#view-about');
+  const setViewMode = (mode) => {
+    const aboutMode = mode === 'about';
+    document.body.classList.toggle('about-mode', aboutMode);
+    viewWorkBtn?.classList.toggle('active', !aboutMode);
+    viewAboutBtn?.classList.toggle('active', aboutMode);
+    if (aboutMode) {
+      document.querySelector('#about-me')?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      document.querySelector('.hero')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+  viewWorkBtn?.addEventListener('click', () => setViewMode('work'));
+  viewAboutBtn?.addEventListener('click', () => setViewMode('about'));
+
+  document.querySelectorAll('[data-about-tab-link]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      setViewMode('about');
+      setAboutTab(link.dataset.aboutTabLink);
+    });
+  });
+
+  document.querySelectorAll('nav a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => { e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
+  });
+</script>
+</body>
+</html>
