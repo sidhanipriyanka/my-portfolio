@@ -381,46 +381,136 @@
     margin-bottom: 18px;
   }
   .travel-timeline {
+    --route-progress: 0;
+    --plane-progress: 0;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
+    gap: 12px;
     margin-bottom: 18px;
-    padding: 10px 8px;
+    padding: 16px 12px 30px;
+    border: 1px solid rgba(255,111,61,0.16);
+    border-radius: 16px;
+    background:
+      radial-gradient(circle at 14% 10%, rgba(255,255,255,0.45), transparent 52%),
+      linear-gradient(120deg, rgba(255,255,255,0.68), rgba(255,248,236,0.52));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.78);
   }
   .travel-timeline::before {
     content: '';
     position: absolute;
-    left: 20px;
-    right: 20px;
+    left: 36px;
+    right: 36px;
     top: 50%;
-    height: 2px;
-    background: linear-gradient(90deg, var(--mood-a), var(--mood-b), var(--mood-c));
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(232,93,58,0.1), rgba(108,140,255,0.14), rgba(26,199,164,0.15));
     transform: translateY(-50%);
-    opacity: 0.65;
+  }
+  .travel-timeline::after {
+    content: '';
+    position: absolute;
+    left: 36px;
+    top: 50%;
+    width: calc((100% - 72px) * var(--route-progress));
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), var(--accent4));
+    transform: translateY(-50%);
+    box-shadow: 0 0 10px rgba(232,93,58,0.35);
+    transition: width 0.35s ease;
+  }
+  .route-plane {
+    position: absolute;
+    left: calc(36px + ((100% - 72px) * var(--plane-progress)));
+    top: 50%;
+    z-index: 2;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 0.78rem;
+    color: #fff;
+    background: linear-gradient(135deg, var(--accent), #ff8f5a);
+    box-shadow: 0 8px 16px rgba(232,93,58,0.3);
+    transform: translate(-50%, -150%) rotate(10deg);
+    transition: left 0.4s cubic-bezier(0.16,1,0.3,1), transform 0.28s ease, box-shadow 0.28s ease;
+    pointer-events: none;
+  }
+  .route-plane.reverse {
+    transform: translate(-50%, -150%) scaleX(-1) rotate(10deg);
+  }
+  .route-plane.moving {
+    box-shadow: 0 12px 24px rgba(232,93,58,0.42);
   }
   .timeline-stop {
     position: relative;
     z-index: 1;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: rgba(255,255,255,0.9);
+    width: 50px;
+    height: 34px;
+    border-radius: 999px;
+    border: 1px solid rgba(80,68,54,0.5);
+    background: linear-gradient(160deg, rgba(255,255,255,0.95), rgba(255,249,240,0.75));
     color: var(--text-dim);
-    font-size: 0.62rem;
-    font-weight: 700;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
     display: grid;
     place-items: center;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: transform 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  }
+  .timeline-stop::before {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    border-radius: inherit;
+    border: 1px solid rgba(232,93,58,0.26);
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+  }
+  .timeline-stop::after {
+    content: attr(data-city);
+    position: absolute;
+    top: calc(100% + 7px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.56rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s ease, color 0.2s ease;
+    pointer-events: none;
+  }
+  .timeline-stop:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    color: var(--text);
+    box-shadow: 0 8px 18px rgba(232,93,58,0.18);
+  }
+  .timeline-stop:hover::after {
+    opacity: 1;
   }
   .timeline-stop.active {
-    background: var(--accent);
+    background: linear-gradient(135deg, var(--accent), #ff7e45);
     color: #fff;
-    transform: scale(1.08);
+    transform: translateY(-2px) scale(1.04);
     border-color: var(--accent);
+    box-shadow: 0 10px 22px rgba(232,93,58,0.35);
+  }
+  .timeline-stop.active::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .timeline-stop.active::after {
+    opacity: 1;
+    color: var(--accent);
   }
   .location-tile {
     border: 1px solid var(--border);
@@ -942,8 +1032,18 @@
     .about-tabs { gap: 8px; }
     .about-tab { width: 100%; text-align: center; }
     .travel-location-grid { grid-template-columns: 1fr 1fr; }
-    .travel-timeline { gap: 4px; }
-    .timeline-stop { width: 26px; height: 26px; font-size: 0.56rem; }
+    .travel-timeline { gap: 6px; padding: 14px 10px 24px; }
+    .route-plane {
+      width: 24px;
+      height: 24px;
+      font-size: 0.68rem;
+      transform: translate(-50%, -135%) rotate(10deg);
+    }
+    .route-plane.reverse {
+      transform: translate(-50%, -135%) scaleX(-1) rotate(10deg);
+    }
+    .timeline-stop { width: 42px; height: 30px; font-size: 0.54rem; }
+    .timeline-stop::after { display: none; }
     .travel-roller-shell { grid-template-columns: 1fr; }
     .travel-roller-btn { display: none; }
     .travel-card { flex-basis: 82vw; }
@@ -1100,12 +1200,13 @@
         </button>
       </div>
       <div class="travel-timeline">
-        <button type="button" class="timeline-stop active" data-location="Singapore">SG</button>
-        <button type="button" class="timeline-stop" data-location="bali">BA</button>
-        <button type="button" class="timeline-stop" data-location="seattle">SE</button>
-        <button type="button" class="timeline-stop" data-location="arizona">AZ</button>
-        <button type="button" class="timeline-stop" data-location="thailand">TH</button>
-        <button type="button" class="timeline-stop" data-location="abu-dhabi">AD</button>
+        <span class="route-plane" id="travel-route-plane" aria-hidden="true">✈</span>
+        <button type="button" class="timeline-stop active" data-location="Singapore" data-city="Singapore">SG</button>
+        <button type="button" class="timeline-stop" data-location="bali" data-city="Bali">BA</button>
+        <button type="button" class="timeline-stop" data-location="seattle" data-city="Seattle">SE</button>
+        <button type="button" class="timeline-stop" data-location="arizona" data-city="Arizona">AZ</button>
+        <button type="button" class="timeline-stop" data-location="thailand" data-city="Thailand">TH</button>
+        <button type="button" class="timeline-stop" data-location="abu-dhabi" data-city="Abu Dhabi">AD</button>
       </div>
       <div class="travel-stage">
         <div class="travel-stage-head">
@@ -1494,6 +1595,8 @@
   const paintingsStats = document.querySelector('#paintings-stats');
   const paintingsPrevBtn = document.querySelector('#paintings-prev');
   const paintingsNextBtn = document.querySelector('#paintings-next');
+  const travelTimeline = document.querySelector('.travel-timeline');
+  const travelRoutePlane = document.querySelector('#travel-route-plane');
   const timelineStops = document.querySelectorAll('.timeline-stop');
   const lightbox = document.querySelector('#media-lightbox');
   const lightboxMedia = document.querySelector('#lightbox-media');
@@ -1504,6 +1607,7 @@
   let activeLocation = 'Singapore';
   let activeLocationItems = [];
   let lightboxIndex = 0;
+  let lastTimelineIndex = 0;
   const travelMediaByLocation = {
     Singapore: [
       "Singapore/WhatsApp Image 2026-02-21 at 03.10.42 (1).jpeg",
@@ -1779,6 +1883,21 @@
     applyLocationMood(location);
     locationTiles.forEach(tile => tile.classList.toggle('active', tile.dataset.location === location));
     timelineStops.forEach(stop => stop.classList.toggle('active', stop.dataset.location === location));
+    if (travelTimeline && timelineStops.length > 1) {
+      const currentIndex = [...timelineStops].findIndex(stop => stop.dataset.location === location);
+      const progress = currentIndex <= 0 ? 0 : (currentIndex / (timelineStops.length - 1));
+      travelTimeline.style.setProperty('--route-progress', String(progress));
+      travelTimeline.style.setProperty('--plane-progress', String(progress));
+      if (travelRoutePlane) {
+        travelRoutePlane.classList.toggle('reverse', currentIndex < lastTimelineIndex);
+        travelRoutePlane.classList.add('moving');
+        clearTimeout(travelRoutePlane._moveTimer);
+        travelRoutePlane._moveTimer = setTimeout(() => {
+          travelRoutePlane.classList.remove('moving');
+        }, 420);
+      }
+      if (currentIndex >= 0) lastTimelineIndex = currentIndex;
+    }
     travelLocationTitle.textContent = getLocationLabel(location);
     travelLocationCount.textContent = `${items.length} moments loaded`;
     travelLocationJoke.textContent = travelQuips[location] || "Travel mode is active and my backpack is emotionally overpacked.";
