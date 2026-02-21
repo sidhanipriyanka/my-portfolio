@@ -282,6 +282,45 @@
 
   /* ── SECTIONS ── */
   section { padding: 120px 48px; max-width: 1400px; margin: 0 auto; }
+  #work-rail { display: block; }
+  body.work-horizontal {
+    overflow-y: hidden;
+  }
+  body.work-horizontal #work-rail {
+    display: flex;
+    align-items: stretch;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    overscroll-behavior-x: contain;
+    width: 100vw;
+    height: 100vh;
+    -webkit-overflow-scrolling: touch;
+  }
+  body.work-horizontal #work-rail > .work-content {
+    flex: 0 0 100vw;
+    min-width: 100vw;
+    height: 100vh;
+    overflow-y: auto;
+    scroll-snap-align: start;
+    margin: 0;
+    max-width: none;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) transparent;
+  }
+  body.work-horizontal #work-rail > section.work-content,
+  body.work-horizontal #work-rail > .cta-section.work-content {
+    padding-top: 136px;
+    padding-bottom: 84px;
+  }
+  body.work-horizontal #work-rail > .hero.work-content {
+    min-height: 100vh;
+  }
+  body.work-horizontal #work-rail > .marquee-section.work-content {
+    display: flex;
+    align-items: center;
+  }
   .section-label {
     font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent);
     text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 12px;
@@ -1052,6 +1091,21 @@
     .vibe-grid { grid-template-columns: 1fr; }
     .lightbox-btn { display: none; }
     .lightbox-close { top: -48px; }
+    body.work-horizontal { overflow-y: auto; }
+    body.work-horizontal #work-rail {
+      display: block;
+      overflow: visible;
+      width: auto;
+      height: auto;
+      scroll-snap-type: none;
+    }
+    body.work-horizontal #work-rail > .work-content {
+      width: auto;
+      min-width: 0;
+      height: auto;
+      overflow: visible;
+      scroll-snap-align: none;
+    }
   }
   @media (max-width: 480px) {
     .mode-switch { width: 100%; justify-content: space-between; }
@@ -1100,6 +1154,7 @@
   </ul>
 </nav>
 
+<div id="work-rail">
 <!-- HERO -->
 <div class="hero work-content">
   <div class="hero-top">
@@ -1129,30 +1184,6 @@
         <div class="stat-label">Revenue Impact</div>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- MARQUEE -->
-<div class="marquee-section work-content">
-  <div class="marquee-track">
-    <span class="marquee-item">Ownership <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Customer Obsession <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Deliver Results <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Invent & Simplify <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Bias for Action <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Dive Deep <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Earn Trust <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Think Big <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Highest Standards <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Ownership <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Customer Obsession <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Deliver Results <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Invent & Simplify <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Bias for Action <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Dive Deep <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Earn Trust <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Think Big <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Highest Standards <span class="marquee-dot"></span></span>
   </div>
 </div>
 
@@ -1514,6 +1545,7 @@
   </div>
   <div class="cta-mono reveal reveal-delay-3">Abu Dhabi, UAE · Available with NOC</div>
 </div>
+</div>
 
 <footer>
   <span>© 2026 Priyanka Sidhani</span>
@@ -1541,6 +1573,8 @@
   const introOverlay = document.querySelector('#intro-overlay');
   const navTargets = document.querySelectorAll('[data-nav-target]');
   const aboutTabLinks = document.querySelectorAll('[data-about-tab-link]');
+  const workRail = document.querySelector('#work-rail');
+  const workPanels = document.querySelectorAll('#work-rail > .work-content');
   const parallaxLayers = document.querySelectorAll('.parallax-layer');
   window.addEventListener('load', () => {
     setTimeout(() => {
@@ -2108,19 +2142,48 @@
 
   const viewWorkBtn = document.querySelector('#view-work');
   const viewAboutBtn = document.querySelector('#view-about');
+  const scrollWorkToTarget = (targetSelector) => {
+    if (!workRail || !targetSelector) return false;
+    const target = document.querySelector(targetSelector);
+    if (!target || !target.classList.contains('work-content')) return false;
+    workRail.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
+    return true;
+  };
   const setViewMode = (mode) => {
     const aboutMode = mode === 'about';
     document.body.classList.toggle('about-mode', aboutMode);
+    document.body.classList.toggle('work-horizontal', !aboutMode);
     viewWorkBtn?.classList.toggle('active', !aboutMode);
     viewAboutBtn?.classList.toggle('active', aboutMode);
     if (aboutMode) {
       document.querySelector('#about-me')?.scrollIntoView({ behavior: 'smooth' });
     } else {
-      document.querySelector('.hero')?.scrollIntoView({ behavior: 'smooth' });
+      workRail?.scrollTo({ left: 0, behavior: 'smooth' });
     }
   };
+  if (!document.body.classList.contains('about-mode')) {
+    document.body.classList.add('work-horizontal');
+  }
   viewWorkBtn?.addEventListener('click', () => setViewMode('work'));
   viewAboutBtn?.addEventListener('click', () => setViewMode('about'));
+  workRail?.addEventListener('wheel', (event) => {
+    if (!document.body.classList.contains('work-horizontal')) return;
+    if (window.matchMedia('(max-width: 768px)').matches) return;
+    if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+    event.preventDefault();
+    workRail.scrollBy({ left: event.deltaY, behavior: 'auto' });
+  }, { passive: false });
+  workRail?.addEventListener('scroll', () => {
+    if (!document.body.classList.contains('work-horizontal') || workPanels.length === 0) return;
+    const midpoint = workRail.scrollLeft + (workRail.clientWidth / 2);
+    let activePanel = null;
+    workPanels.forEach(panel => {
+      if (midpoint >= panel.offsetLeft && midpoint < panel.offsetLeft + panel.clientWidth) {
+        activePanel = panel;
+      }
+    });
+    if (activePanel?.id) setActiveNavLink(activePanel.id);
+  }, { passive: true });
 
   document.querySelectorAll('[data-about-tab-link]').forEach(link => {
     link.addEventListener('click', (e) => {
@@ -2134,6 +2197,11 @@
     a.addEventListener('click', e => {
       const target = a.getAttribute('href');
       if (!target || target === '#') return;
+      const isWorkTarget = a.closest('#work-nav') && !document.body.classList.contains('about-mode');
+      if (isWorkTarget && scrollWorkToTarget(target)) {
+        e.preventDefault();
+        return;
+      }
       e.preventDefault();
       document.querySelector(target)?.scrollIntoView({ behavior: 'smooth' });
     });
