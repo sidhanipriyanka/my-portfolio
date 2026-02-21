@@ -18,6 +18,9 @@
     --accent2: #3dd68c;
     --accent3: #f5c542;
     --accent4: #6c8cff;
+    --mood-a: rgba(255,111,61,0.2);
+    --mood-b: rgba(79,125,255,0.16);
+    --mood-c: rgba(26,199,164,0.14);
     --nav-glass: rgba(10, 10, 10, 0.7);
     --white: #ffffff;
     --radius: 16px;
@@ -34,6 +37,10 @@
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     transition: background 0.6s ease, color 0.6s ease;
+    cursor: default;
+  }
+  body.preloading {
+    overflow: hidden;
   }
 
   body.about-mode {
@@ -49,6 +56,56 @@
     --accent3: #ffbe0b;
     --accent4: #4f7dff;
     --nav-glass: rgba(255, 248, 236, 0.88);
+  }
+  body.about-mode .logo { color: var(--text); }
+
+  .intro-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 11000;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(circle at 20% 20%, rgba(255,111,61,0.24), transparent 45%), #1d1510;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+  }
+  .intro-overlay.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .intro-mark {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2.8rem, 9vw, 7rem);
+    color: #fff;
+    letter-spacing: -0.04em;
+    animation: introFloat 1.6s cubic-bezier(0.16,1,0.3,1);
+  }
+  .intro-mark span { color: var(--accent3); font-style: italic; }
+  @keyframes introFloat {
+    0% { opacity: 0; transform: translateY(18px) scale(0.95); }
+    45% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .parallax-layer {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(12px);
+    z-index: -1;
+    will-change: transform;
+  }
+  .parallax-layer.layer-a {
+    width: 360px; height: 360px; top: 12%; left: -110px;
+    background: radial-gradient(circle, rgba(255,111,61,0.2), transparent 70%);
+  }
+  .parallax-layer.layer-b {
+    width: 400px; height: 400px; top: 48%; right: -120px;
+    background: radial-gradient(circle, rgba(79,125,255,0.16), transparent 72%);
+  }
+  .parallax-layer.layer-c {
+    width: 320px; height: 320px; top: 72%; left: 35%;
+    background: radial-gradient(circle, rgba(26,199,164,0.15), transparent 75%);
   }
 
   ::selection { background: var(--accent); color: var(--bg); }
@@ -103,7 +160,21 @@
   .nav-links a {
     text-decoration: none; color: var(--text-dim); font-size: 0.82rem; font-weight: 500;
     letter-spacing: 0.04em; text-transform: uppercase; transition: color 0.3s;
+    position: relative;
   }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    bottom: -8px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent4));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.28s ease;
+  }
+  .nav-links a.active-link::after { transform: scaleX(1); }
   .nav-links a:hover { color: var(--white); }
   body.about-mode .nav-links a:hover { color: var(--text); }
   .nav-cta {
@@ -175,7 +246,7 @@
     position: relative; z-index: 1; max-width: 1100px;
   }
   .hero-desc {
-    max-width: 520px; font-size: 1.05rem; line-height: 1.75; color: var(--text-dim);
+    max-width: 560px; font-size: 1.14rem; line-height: 1.75; color: var(--text-dim);
   }
   .hero-desc strong { color: var(--text); font-weight: 600; }
   .hero-stats { display: flex; gap: 48px; }
@@ -218,7 +289,7 @@
   }
   .section-label::before { content: ''; width: 24px; height: 1px; background: var(--accent); }
   .section-title {
-    font-family: 'Instrument Serif', serif; font-size: clamp(2.2rem, 4.5vw, 4rem);
+    font-family: 'Instrument Serif', serif; font-size: clamp(2.6rem, 5.2vw, 4.8rem);
     font-weight: 400; line-height: 1.05; letter-spacing: -0.03em;
     margin-bottom: 60px; max-width: 700px;
   }
@@ -242,11 +313,12 @@
   .about-shell {
     position: relative;
     z-index: 1;
-    background: linear-gradient(140deg, rgba(255,255,255,0.78), rgba(255,249,239,0.84));
+    background: linear-gradient(140deg, rgba(255,255,255,0.76), rgba(255,249,239,0.72)), radial-gradient(circle at 85% 8%, var(--mood-b), transparent 38%);
     border: 1px solid var(--border);
     border-radius: 28px;
     padding: 32px;
-    box-shadow: 0 28px 60px rgba(153, 80, 25, 0.12);
+    box-shadow: 0 28px 60px rgba(153, 80, 25, 0.12), inset 0 1px 0 rgba(255,255,255,0.75);
+    backdrop-filter: blur(16px) saturate(1.2);
   }
   .about-instructions {
     font-size: 0.86rem;
@@ -308,6 +380,48 @@
     gap: 12px;
     margin-bottom: 18px;
   }
+  .travel-timeline {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 18px;
+    padding: 10px 8px;
+  }
+  .travel-timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    top: 50%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--mood-a), var(--mood-b), var(--mood-c));
+    transform: translateY(-50%);
+    opacity: 0.65;
+  }
+  .timeline-stop {
+    position: relative;
+    z-index: 1;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.9);
+    color: var(--text-dim);
+    font-size: 0.62rem;
+    font-weight: 700;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .timeline-stop.active {
+    background: var(--accent);
+    color: #fff;
+    transform: scale(1.08);
+    border-color: var(--accent);
+  }
   .location-tile {
     border: 1px solid var(--border);
     border-radius: 16px;
@@ -324,7 +438,7 @@
   }
   .location-tile.active {
     border-color: var(--accent);
-    background: linear-gradient(140deg, rgba(255,111,61,0.16), rgba(79,125,255,0.12));
+    background: linear-gradient(140deg, var(--mood-a), var(--mood-b));
   }
   .location-tile h4 {
     font-size: 0.95rem;
@@ -339,7 +453,7 @@
     border: 1px solid var(--border);
     border-radius: 20px;
     padding: 16px;
-    background: linear-gradient(145deg, rgba(255,255,255,0.7), rgba(255,248,236,0.55));
+    background: linear-gradient(145deg, rgba(255,255,255,0.7), rgba(255,248,236,0.55)), radial-gradient(circle at 90% 12%, var(--mood-a), transparent 35%);
   }
   .travel-stage-head {
     display: flex;
@@ -364,13 +478,63 @@
     font-size: 0.86rem;
     margin-bottom: 14px;
   }
-  .travel-grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 14px;
+  .travel-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
   }
+  .travel-chip {
+    font-size: 0.68rem;
+    letter-spacing: 0.09em;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.82);
+    color: var(--text-dim);
+    animation: chipPop 0.45s cubic-bezier(0.16,1,0.3,1);
+  }
+  @keyframes chipPop {
+    from { opacity: 0; transform: translateY(6px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .travel-roller-shell {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 10px;
+  }
+  .travel-roller-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.8);
+    color: var(--text);
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .travel-roller-btn:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+  }
+  .travel-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    overscroll-behavior-x: contain;
+    gap: 14px;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .travel-grid::-webkit-scrollbar { height: 10px; }
+  .travel-grid::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
   .travel-card {
-    grid-column: span 4;
+    flex: 0 0 clamp(260px, 30vw, 360px);
+    scroll-snap-align: start;
     position: relative;
     border-radius: 16px;
     overflow: hidden;
@@ -378,10 +542,11 @@
     min-height: 220px;
     background: var(--surface2);
     box-shadow: 0 10px 28px rgba(0,0,0,0.1);
-    transform: translateY(22px) scale(0.985);
+    transform: translateY(22px) scale(0.985) rotateX(0deg) rotateY(0deg);
     opacity: 0;
     animation: liftIn 0.55s cubic-bezier(0.16,1,0.3,1) forwards;
     animation-delay: calc(var(--i, 0) * 0.05s);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   }
   @keyframes liftIn {
     to { opacity: 1; transform: translateY(0) scale(1); }
@@ -397,6 +562,10 @@
   .travel-card:hover img,
   .travel-card:hover video {
     transform: scale(1.06);
+  }
+  .travel-card:hover {
+    box-shadow: 0 22px 48px rgba(0,0,0,0.18);
+    border-color: rgba(255,111,61,0.35);
   }
   .travel-card::after {
     content: '';
@@ -425,8 +594,8 @@
     text-transform: uppercase;
     opacity: 0.88;
   }
-  .travel-card.span-6 { grid-column: span 6; }
-  .travel-card.span-4 { grid-column: span 4; }
+  .travel-card.span-6 { flex-basis: clamp(340px, 42vw, 520px); }
+  .travel-card.span-4 { flex-basis: clamp(260px, 30vw, 360px); }
   .vibe-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -441,11 +610,12 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   }
   .vibe-card:hover {
     transform: translateY(-4px);
     border-color: var(--accent);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.12);
   }
   .vibe-kicker {
     font-size: 0.68rem;
@@ -658,6 +828,68 @@
   }
   .footer-links a:hover { color: var(--accent); }
 
+  .media-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 12000;
+    background: rgba(8, 10, 14, 0.78);
+    backdrop-filter: blur(6px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 22px;
+  }
+  .media-lightbox.open { display: flex; }
+  .lightbox-frame {
+    width: min(1100px, 92vw);
+    height: min(82vh, 760px);
+    position: relative;
+  }
+  .lightbox-media {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.24);
+    background: #111;
+  }
+  .lightbox-media img,
+  .lightbox-media video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  .lightbox-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.32);
+    background: rgba(8,12,18,0.65);
+    color: #fff;
+    font-size: 1.3rem;
+    cursor: pointer;
+  }
+  .lightbox-prev { left: -58px; }
+  .lightbox-next { right: -58px; }
+  .lightbox-close {
+    position: absolute;
+    top: -56px;
+    right: 0;
+    border: 1px solid rgba(255,255,255,0.28);
+    background: rgba(8,12,18,0.68);
+    color: #fff;
+    border-radius: 999px;
+    padding: 10px 14px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+  }
+
   /* ── ANIMATIONS ── */
   .reveal {
     opacity: 0; transform: translateY(40px);
@@ -678,9 +910,8 @@
     .contrib-row { grid-template-columns: 40px 1fr 120px; }
     .contrib-impact { display: none; }
     .travel-location-grid { grid-template-columns: repeat(3, 1fr); }
-    .travel-grid { grid-template-columns: repeat(6, 1fr); }
-    .travel-card { grid-column: span 3; }
-    .travel-card.span-6, .travel-card.span-4 { grid-column: span 3; }
+    .travel-card { flex-basis: clamp(230px, 45vw, 360px); }
+    .travel-card.span-6, .travel-card.span-4 { flex-basis: clamp(230px, 45vw, 360px); }
     .vibe-grid { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 768px) {
@@ -711,11 +942,16 @@
     .about-tabs { gap: 8px; }
     .about-tab { width: 100%; text-align: center; }
     .travel-location-grid { grid-template-columns: 1fr 1fr; }
-    .travel-grid { grid-template-columns: 1fr 1fr; }
-    .travel-card { grid-column: span 1; }
-    .travel-card.span-6, .travel-card.span-4 { grid-column: span 1; }
+    .travel-timeline { gap: 4px; }
+    .timeline-stop { width: 26px; height: 26px; font-size: 0.56rem; }
+    .travel-roller-shell { grid-template-columns: 1fr; }
+    .travel-roller-btn { display: none; }
+    .travel-card { flex-basis: 82vw; }
+    .travel-card.span-6, .travel-card.span-4 { flex-basis: 82vw; }
     .travel-card { min-height: 200px; }
     .vibe-grid { grid-template-columns: 1fr; }
+    .lightbox-btn { display: none; }
+    .lightbox-close { top: -48px; }
   }
   @media (max-width: 480px) {
     .mode-switch { width: 100%; justify-content: space-between; }
@@ -729,26 +965,33 @@
   }
 </style>
 </head>
-<body>
+<body class="preloading">
+
+<div class="intro-overlay" id="intro-overlay">
+  <div class="intro-mark">Priyanka <span>Sidhani</span></div>
+</div>
+<div class="parallax-layer layer-a" aria-hidden="true"></div>
+<div class="parallax-layer layer-b" aria-hidden="true"></div>
+<div class="parallax-layer layer-c" aria-hidden="true"></div>
 
 <nav>
   <div class="nav-left">
     <div class="logo">PS<span>.</span></div>
     <div class="mode-switch">
       <button id="view-work" class="mode-btn active" type="button">Work</button>
-      <button id="view-about" class="mode-btn" type="button">About Me</button>
+      <button id="view-about" class="mode-btn" type="button">Play</button>
     </div>
   </div>
   <ul class="nav-links" id="work-nav">
-    <li><a href="#contributions">Work</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#strengths">Strengths</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#credentials">Credentials</a></li>
+    <li><a href="#contributions" data-nav-target="#contributions">Work</a></li>
+    <li><a href="#experience" data-nav-target="#experience">Experience</a></li>
+    <li><a href="#strengths" data-nav-target="#strengths">Strengths</a></li>
+    <li><a href="#skills" data-nav-target="#skills">Skills</a></li>
+    <li><a href="#credentials" data-nav-target="#credentials">Credentials</a></li>
     <li><a href="#contact" class="nav-cta">Let's Talk</a></li>
   </ul>
   <ul class="nav-links" id="about-nav">
-    <li><a href="#about-me">About</a></li>
+    <li><a href="#about-me" data-nav-target="#about-me">About</a></li>
     <li><a href="#" data-about-tab-link="travel">Travel</a></li>
     <li><a href="#" data-about-tab-link="eat">Eat</a></li>
     <li><a href="#" data-about-tab-link="music">Music</a></li>
@@ -850,13 +1093,25 @@
           <p>Street snacks, temple calm, and zero boring moments.</p>
         </button>
       </div>
+      <div class="travel-timeline">
+        <button type="button" class="timeline-stop active" data-location="Singapore">SG</button>
+        <button type="button" class="timeline-stop" data-location="bali">BA</button>
+        <button type="button" class="timeline-stop" data-location="seattle">SE</button>
+        <button type="button" class="timeline-stop" data-location="arizona">AZ</button>
+        <button type="button" class="timeline-stop" data-location="thailand">TH</button>
+      </div>
       <div class="travel-stage">
         <div class="travel-stage-head">
           <h4 id="travel-location-title">Singapore</h4>
           <span id="travel-location-count" class="travel-count">0 moments loaded</span>
         </div>
         <p id="travel-location-joke" class="travel-joke">Loading photos and pretending I packed light.</p>
-        <div class="travel-grid" id="travel-gallery"></div>
+        <div id="travel-stats" class="travel-chips"></div>
+        <div class="travel-roller-shell">
+          <button class="travel-roller-btn" id="travel-prev" type="button" aria-label="Roll left">‹</button>
+          <div class="travel-grid" id="travel-gallery"></div>
+          <button class="travel-roller-btn" id="travel-next" type="button" aria-label="Roll right">›</button>
+        </div>
       </div>
     </div>
 
@@ -1127,11 +1382,47 @@
   </div>
 </footer>
 
+<div class="media-lightbox" id="media-lightbox" aria-hidden="true">
+  <div class="lightbox-frame">
+    <button class="lightbox-close" id="lightbox-close" type="button">Close</button>
+    <button class="lightbox-btn lightbox-prev" id="lightbox-prev" type="button" aria-label="Previous">‹</button>
+    <div class="lightbox-media" id="lightbox-media"></div>
+    <button class="lightbox-btn lightbox-next" id="lightbox-next" type="button" aria-label="Next">›</button>
+  </div>
+</div>
+
 <script>
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
   }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  const introOverlay = document.querySelector('#intro-overlay');
+  const navTargets = document.querySelectorAll('[data-nav-target]');
+  const parallaxLayers = document.querySelectorAll('.parallax-layer');
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      introOverlay?.classList.add('hide');
+      document.body.classList.remove('preloading');
+    }, 900);
+  });
+  const setActiveNavLink = (sectionId) => {
+    navTargets.forEach(link => link.classList.toggle('active-link', link.dataset.navTarget === `#${sectionId}`));
+  };
+  const sectionSpy = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) setActiveNavLink(entry.target.id); });
+  }, { threshold: 0.42 });
+  ['about-me', 'contributions', 'experience', 'strengths', 'skills', 'credentials', 'contact'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) sectionSpy.observe(el);
+  });
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    parallaxLayers.forEach((layer, index) => {
+      const speed = (index + 1) * 0.06;
+      const xNudge = index === 1 ? -y * 0.015 : y * 0.01;
+      layer.style.transform = `translate3d(${xNudge}px, ${y * speed}px, 0)`;
+    });
+  }, { passive: true });
 
   const aboutTabs = document.querySelectorAll('[data-about-tab]');
   const aboutPanels = document.querySelectorAll('[data-about-panel]');
@@ -1139,7 +1430,19 @@
   const travelLocationTitle = document.querySelector('#travel-location-title');
   const travelLocationCount = document.querySelector('#travel-location-count');
   const travelLocationJoke = document.querySelector('#travel-location-joke');
+  const travelStats = document.querySelector('#travel-stats');
+  const travelPrevBtn = document.querySelector('#travel-prev');
+  const travelNextBtn = document.querySelector('#travel-next');
+  const timelineStops = document.querySelectorAll('.timeline-stop');
+  const lightbox = document.querySelector('#media-lightbox');
+  const lightboxMedia = document.querySelector('#lightbox-media');
+  const lightboxPrev = document.querySelector('#lightbox-prev');
+  const lightboxNext = document.querySelector('#lightbox-next');
+  const lightboxClose = document.querySelector('#lightbox-close');
   const locationTiles = document.querySelectorAll('.location-tile');
+  let activeLocation = 'Singapore';
+  let activeLocationItems = [];
+  let lightboxIndex = 0;
   const travelMediaByLocation = {
     Singapore: [
       "Singapore/WhatsApp Image 2026-02-21 at 03.10.42 (1).jpeg",
@@ -1229,6 +1532,13 @@
     arizona: "Arizona is where sunscreen becomes a full-time job.",
     thailand: "Thailand delivered flavor, color, and a weekly step goal in one day."
   };
+  const travelMood = {
+    Singapore: ['rgba(79,125,255,0.2)', 'rgba(26,199,164,0.16)', 'rgba(255,190,11,0.15)'],
+    bali: ['rgba(255,111,61,0.23)', 'rgba(255,190,11,0.18)', 'rgba(26,199,164,0.15)'],
+    seattle: ['rgba(79,125,255,0.24)', 'rgba(43,165,214,0.18)', 'rgba(108,140,255,0.16)'],
+    arizona: ['rgba(255,111,61,0.24)', 'rgba(255,80,80,0.16)', 'rgba(245,197,66,0.18)'],
+    thailand: ['rgba(255,190,11,0.22)', 'rgba(26,199,164,0.18)', 'rgba(255,111,61,0.17)']
+  };
   const travelCaptionPool = [
     "Proof I left the hotel",
     "Camera roll, no regrets",
@@ -1240,15 +1550,78 @@
     "Unplanned but iconic",
     "Yes, I took 47 versions"
   ];
+  const locationStoryNotes = {
+    Singapore: "Merlion approved this gallery after 9 quality checks.",
+    bali: "Warning: this reel may trigger immediate vacation PTO requests.",
+    seattle: "Clouds included at no extra charge.",
+    arizona: "Hydration reminder sponsored by the sun.",
+    thailand: "All roads lead to excellent food and stunning sunsets."
+  };
   const toTitleCase = (value) => value.charAt(0).toUpperCase() + value.slice(1);
   const chooseSpanClass = (index) => (index % 7 === 0 ? 'span-6' : (index % 3 === 0 ? 'span-6' : 'span-4'));
+  const applyLocationMood = (location) => {
+    const [a, b, c] = travelMood[location] || travelMood.Singapore;
+    document.documentElement.style.setProperty('--mood-a', a);
+    document.documentElement.style.setProperty('--mood-b', b);
+    document.documentElement.style.setProperty('--mood-c', c);
+  };
+  const attachTilt = (selector) => {
+    document.querySelectorAll(selector).forEach(card => {
+      if (card.dataset.tiltBound === '1') return;
+      card.dataset.tiltBound = '1';
+      card.addEventListener('mousemove', (event) => {
+        const rect = card.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+        const rx = (-y * 6).toFixed(2);
+        const ry = (x * 7).toFixed(2);
+        card.style.transform = `translateY(-2px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+  };
+  const openLightbox = (index) => {
+    if (!activeLocationItems.length || !lightbox || !lightboxMedia) return;
+    lightboxIndex = index;
+    const src = activeLocationItems[lightboxIndex];
+    const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.mov') || src.toLowerCase().endsWith('.m4v');
+    lightboxMedia.innerHTML = isVideo
+      ? `<video src="${encodeURI(src)}" controls autoplay playsinline></video>`
+      : `<img src="${encodeURI(src)}" alt="${toTitleCase(activeLocation)} fullscreen ${lightboxIndex + 1}">`;
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden', 'false');
+  };
+  const closeLightbox = () => {
+    lightbox?.classList.remove('open');
+    lightbox?.setAttribute('aria-hidden', 'true');
+    if (lightboxMedia) lightboxMedia.innerHTML = '';
+  };
+  const shiftLightbox = (dir) => {
+    if (!activeLocationItems.length) return;
+    lightboxIndex = (lightboxIndex + dir + activeLocationItems.length) % activeLocationItems.length;
+    openLightbox(lightboxIndex);
+  };
   const renderTravelLocation = (location) => {
     const items = travelMediaByLocation[location] || [];
     if (!travelGallery) return;
+    activeLocation = location;
+    activeLocationItems = items;
+    applyLocationMood(location);
     locationTiles.forEach(tile => tile.classList.toggle('active', tile.dataset.location === location));
+    timelineStops.forEach(stop => stop.classList.toggle('active', stop.dataset.location === location));
     travelLocationTitle.textContent = toTitleCase(location);
     travelLocationCount.textContent = `${items.length} moments loaded`;
     travelLocationJoke.textContent = travelQuips[location] || "Travel mode is active and my backpack is emotionally overpacked.";
+    const videoCount = items.filter(src => src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.mov') || src.toLowerCase().endsWith('.m4v')).length;
+    if (travelStats) {
+      travelStats.innerHTML = `
+        <span class="travel-chip">${items.length} total frames</span>
+        <span class="travel-chip">${videoCount} moving memories</span>
+        <span class="travel-chip">${locationStoryNotes[location] || 'No itinerary, only vibes.'}</span>
+      `;
+    }
 
     travelGallery.innerHTML = items.map((src, index) => {
       const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.mov') || src.toLowerCase().endsWith('.m4v');
@@ -1256,8 +1629,10 @@
         ? `<video src="${encodeURI(src)}" controls preload="metadata" playsinline></video>`
         : `<img src="${encodeURI(src)}" alt="${toTitleCase(location)} memory ${index + 1}">`;
       const caption = travelCaptionPool[index % travelCaptionPool.length];
-      return `<article class="travel-card ${chooseSpanClass(index)}" style="--i:${index};">${mediaElement}<div class="travel-meta"><h4>${toTitleCase(location)}</h4><p>${caption}</p></div></article>`;
+      return `<article class="travel-card ${chooseSpanClass(index)}" data-media-index="${index}" style="--i:${index};">${mediaElement}<div class="travel-meta"><h4>${toTitleCase(location)}</h4><p>${caption}</p></div></article>`;
     }).join('');
+    travelGallery.scrollLeft = 0;
+    attachTilt('.travel-card');
   };
 
   const setAboutTab = (tabName) => {
@@ -1271,7 +1646,41 @@
   locationTiles.forEach(tile => {
     tile.addEventListener('click', () => renderTravelLocation(tile.dataset.location));
   });
+  timelineStops.forEach(stop => {
+    stop.addEventListener('click', () => renderTravelLocation(stop.dataset.location));
+  });
+  travelPrevBtn?.addEventListener('click', () => {
+    travelGallery?.scrollBy({ left: -Math.max(260, travelGallery.clientWidth * 0.8), behavior: 'smooth' });
+  });
+  travelNextBtn?.addEventListener('click', () => {
+    travelGallery?.scrollBy({ left: Math.max(260, travelGallery.clientWidth * 0.8), behavior: 'smooth' });
+  });
+  travelGallery?.addEventListener('wheel', (event) => {
+    if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+      event.preventDefault();
+      travelGallery.scrollBy({ left: event.deltaY });
+    }
+  }, { passive: false });
+  travelGallery?.addEventListener('click', (event) => {
+    const card = event.target.closest('.travel-card');
+    if (!card) return;
+    const idx = Number(card.dataset.mediaIndex);
+    if (!Number.isNaN(idx)) openLightbox(idx);
+  });
+  lightboxPrev?.addEventListener('click', () => shiftLightbox(-1));
+  lightboxNext?.addEventListener('click', () => shiftLightbox(1));
+  lightboxClose?.addEventListener('click', closeLightbox);
+  lightbox?.addEventListener('click', (event) => {
+    if (event.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (!lightbox?.classList.contains('open')) return;
+    if (event.key === 'Escape') closeLightbox();
+    if (event.key === 'ArrowRight') shiftLightbox(1);
+    if (event.key === 'ArrowLeft') shiftLightbox(-1);
+  });
   renderTravelLocation(document.querySelector('.location-tile.active')?.dataset.location || 'Singapore');
+  attachTilt('.vibe-card, .location-tile');
 
   const viewWorkBtn = document.querySelector('#view-work');
   const viewAboutBtn = document.querySelector('#view-about');
@@ -1298,7 +1707,12 @@
   });
 
   document.querySelectorAll('nav a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => { e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
+    a.addEventListener('click', e => {
+      const target = a.getAttribute('href');
+      if (!target || target === '#') return;
+      e.preventDefault();
+      document.querySelector(target)?.scrollIntoView({ behavior: 'smooth' });
+    });
   });
 </script>
 </body>
