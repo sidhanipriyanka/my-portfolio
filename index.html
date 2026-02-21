@@ -376,7 +376,7 @@
   }
   .travel-location-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 12px;
     margin-bottom: 18px;
   }
@@ -1092,6 +1092,10 @@
           <h4>Thailand</h4>
           <p>Street snacks, temple calm, and zero boring moments.</p>
         </button>
+        <button class="location-tile" type="button" data-location="abu-dhabi">
+          <h4>Abu Dhabi</h4>
+          <p>Desert glow, skyline drama, and every turn feeling cinematic.</p>
+        </button>
       </div>
       <div class="travel-timeline">
         <button type="button" class="timeline-stop active" data-location="Singapore">SG</button>
@@ -1099,6 +1103,7 @@
         <button type="button" class="timeline-stop" data-location="seattle">SE</button>
         <button type="button" class="timeline-stop" data-location="arizona">AZ</button>
         <button type="button" class="timeline-stop" data-location="thailand">TH</button>
+        <button type="button" class="timeline-stop" data-location="abu-dhabi">AD</button>
       </div>
       <div class="travel-stage">
         <div class="travel-stage-head">
@@ -1128,10 +1133,18 @@
     <div class="about-panel" data-about-panel="music">
       <h3 class="about-panel-title">Listen to music with me</h3>
       <p class="about-panel-copy">My playlist logic is scientific: one song for focus, one for dancing in the kitchen, one for dramatic window staring.</p>
-      <div class="vibe-grid">
-        <article class="vibe-card"><div><div class="vibe-kicker">Focus Mode</div><h4>Instrumental Brain Fuel</h4><p>For when my to-do list is spicy but my face must stay calm.</p></div></article>
-        <article class="vibe-card"><div><div class="vibe-kicker">Drive Mode</div><h4>Road Trip Anthems</h4><p>Windows down, snacks up, and chorus participation at unsafe confidence levels.</p></div></article>
-        <article class="vibe-card"><div><div class="vibe-kicker">Night Mode</div><h4>Soft Acoustic Reset</h4><p>The sonic equivalent of dim lights and pretending tomorrow starts next week.</p></div></article>
+      <div class="travel-stage">
+        <div class="travel-stage-head">
+          <h4>Music memories</h4>
+          <span id="music-location-count" class="travel-count">0 moments loaded</span>
+        </div>
+        <p class="travel-joke">The soundtrack tab now opens your music folder moments directly.</p>
+        <div id="music-stats" class="travel-chips"></div>
+        <div class="travel-roller-shell">
+          <button class="travel-roller-btn" id="music-prev" type="button" aria-label="Music roll left">‹</button>
+          <div class="travel-grid" id="music-gallery"></div>
+          <button class="travel-roller-btn" id="music-next" type="button" aria-label="Music roll right">›</button>
+        </div>
       </div>
     </div>
 
@@ -1368,7 +1381,7 @@
   <div class="cta-links reveal reveal-delay-2">
     <a href="mailto:sidhanipriyanka@gmail.com" class="cta-primary">sidhanipriyanka@gmail.com</a>
     <a href="tel:+971501738339" class="cta-outline">+971 50 173 8339</a>
-    <a href="https://linkedin.com/in/" target="_blank" class="cta-outline">LinkedIn</a>
+    <a href="https://www.linkedin.com/in/priyanka-sidhani-55a40780/" target="_blank" class="cta-outline">LinkedIn</a>
   </div>
   <div class="cta-mono reveal reveal-delay-3">Abu Dhabi, UAE · Available with NOC</div>
 </div>
@@ -1433,6 +1446,11 @@
   const travelStats = document.querySelector('#travel-stats');
   const travelPrevBtn = document.querySelector('#travel-prev');
   const travelNextBtn = document.querySelector('#travel-next');
+  const musicGallery = document.querySelector('#music-gallery');
+  const musicLocationCount = document.querySelector('#music-location-count');
+  const musicStats = document.querySelector('#music-stats');
+  const musicPrevBtn = document.querySelector('#music-prev');
+  const musicNextBtn = document.querySelector('#music-next');
   const timelineStops = document.querySelectorAll('.timeline-stop');
   const lightbox = document.querySelector('#media-lightbox');
   const lightboxMedia = document.querySelector('#lightbox-media');
@@ -1523,6 +1541,23 @@
       "thailand/WhatsApp Image 2026-02-21 at 03.26.17.jpeg",
       "thailand/WhatsApp Video 2026-02-21 at 03.26.20 (1).mp4",
       "thailand/WhatsApp Video 2026-02-21 at 03.26.20.mp4"
+    ],
+    "abu-dhabi": [
+      "abu-dhabi/WhatsApp Image 2026-02-21 at 03.41.06 (1).jpeg",
+      "abu-dhabi/WhatsApp Image 2026-02-21 at 03.41.06 (2).jpeg",
+      "abu-dhabi/WhatsApp Image 2026-02-21 at 03.41.06 (3).jpeg",
+      "abu-dhabi/WhatsApp Image 2026-02-21 at 03.41.06.jpeg",
+      "abu-dhabi/WhatsApp Image 2026-02-21 at 03.41.07 (1).jpeg",
+      "abu-dhabi/WhatsApp Image 2026-02-21 at 03.41.07 (2).jpeg",
+      "abu-dhabi/WhatsApp Image 2026-02-21 at 03.41.07 (3).jpeg",
+      "abu-dhabi/WhatsApp Image 2026-02-21 at 03.41.07 (4).jpeg",
+      "abu-dhabi/WhatsApp Image 2026-02-21 at 03.41.07 (5).jpeg",
+      "abu-dhabi/WhatsApp Image 2026-02-21 at 03.41.07 (6).jpeg",
+      "abu-dhabi/WhatsApp Image 2026-02-21 at 03.41.07 (7).jpeg",
+      "abu-dhabi/WhatsApp Image 2026-02-21 at 03.41.07 (8).jpeg",
+      "abu-dhabi/WhatsApp Image 2026-02-21 at 03.41.07 (9).jpeg",
+      "abu-dhabi/WhatsApp Image 2026-02-21 at 03.41.07.jpeg",
+      "abu-dhabi/WhatsApp Video 2026-02-21 at 03.41.07.mp4"
     ]
   };
   const travelQuips = {
@@ -1530,14 +1565,16 @@
     bali: "In Bali even my to-do list wanted a spa day.",
     seattle: "Seattle gave me coffee confidence and weather humility.",
     arizona: "Arizona is where sunscreen becomes a full-time job.",
-    thailand: "Thailand delivered flavor, color, and a weekly step goal in one day."
+    thailand: "Thailand delivered flavor, color, and a weekly step goal in one day.",
+    "abu-dhabi": "Abu Dhabi was skyline elegance by day and golden-hour theater by sunset."
   };
   const travelMood = {
     Singapore: ['rgba(79,125,255,0.2)', 'rgba(26,199,164,0.16)', 'rgba(255,190,11,0.15)'],
     bali: ['rgba(255,111,61,0.23)', 'rgba(255,190,11,0.18)', 'rgba(26,199,164,0.15)'],
     seattle: ['rgba(79,125,255,0.24)', 'rgba(43,165,214,0.18)', 'rgba(108,140,255,0.16)'],
     arizona: ['rgba(255,111,61,0.24)', 'rgba(255,80,80,0.16)', 'rgba(245,197,66,0.18)'],
-    thailand: ['rgba(255,190,11,0.22)', 'rgba(26,199,164,0.18)', 'rgba(255,111,61,0.17)']
+    thailand: ['rgba(255,190,11,0.22)', 'rgba(26,199,164,0.18)', 'rgba(255,111,61,0.17)'],
+    "abu-dhabi": ['rgba(245,197,66,0.25)', 'rgba(255,111,61,0.2)', 'rgba(79,125,255,0.14)']
   };
   const travelCaptionPool = [
     "Proof I left the hotel",
@@ -1555,9 +1592,46 @@
     bali: "Warning: this reel may trigger immediate vacation PTO requests.",
     seattle: "Clouds included at no extra charge.",
     arizona: "Hydration reminder sponsored by the sun.",
-    thailand: "All roads lead to excellent food and stunning sunsets."
+    thailand: "All roads lead to excellent food and stunning sunsets.",
+    "abu-dhabi": "Skyline sparkle and desert calm in one itinerary."
+  };
+  const locationLabelMap = {
+    Singapore: "Singapore",
+    bali: "Bali",
+    seattle: "Seattle",
+    arizona: "Arizona",
+    thailand: "Thailand",
+    "abu-dhabi": "Abu Dhabi",
+    music: "Music"
   };
   const toTitleCase = (value) => value.charAt(0).toUpperCase() + value.slice(1);
+  const getLocationLabel = (value) => locationLabelMap[value] || toTitleCase(value.replace(/-/g, ' '));
+  const musicMedia = [
+    "music/WhatsApp Image 2026-02-21 at 03.52.08.jpeg",
+    "music/WhatsApp Image 2026-02-21 at 03.52.16 (1).jpeg",
+    "music/WhatsApp Image 2026-02-21 at 03.52.16.jpeg",
+    "music/WhatsApp Image 2026-02-21 at 03.52.18 (1).jpeg",
+    "music/WhatsApp Image 2026-02-21 at 03.52.18 (10).jpeg",
+    "music/WhatsApp Image 2026-02-21 at 03.52.18 (11).jpeg",
+    "music/WhatsApp Image 2026-02-21 at 03.52.18 (2).jpeg",
+    "music/WhatsApp Image 2026-02-21 at 03.52.18 (3).jpeg",
+    "music/WhatsApp Image 2026-02-21 at 03.52.18 (4).jpeg",
+    "music/WhatsApp Image 2026-02-21 at 03.52.18 (5).jpeg",
+    "music/WhatsApp Image 2026-02-21 at 03.52.18 (6).jpeg",
+    "music/WhatsApp Image 2026-02-21 at 03.52.18 (7).jpeg",
+    "music/WhatsApp Image 2026-02-21 at 03.52.18 (8).jpeg",
+    "music/WhatsApp Image 2026-02-21 at 03.52.18 (9).jpeg",
+    "music/WhatsApp Image 2026-02-21 at 03.52.18.jpeg",
+    "music/WhatsApp Image 2026-02-21 at 03.52.40.jpeg",
+    "music/WhatsApp Video 2026-02-21 at 03.52.18.mp4"
+  ];
+  const musicCaptionPool = [
+    "Volume up moment",
+    "Playlist proof",
+    "Beat drop archive",
+    "Studio vibes only",
+    "Now playing in my head"
+  ];
   const chooseSpanClass = (index) => (index % 7 === 0 ? 'span-6' : (index % 3 === 0 ? 'span-6' : 'span-4'));
   const applyLocationMood = (location) => {
     const [a, b, c] = travelMood[location] || travelMood.Singapore;
@@ -1589,7 +1663,7 @@
     const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.mov') || src.toLowerCase().endsWith('.m4v');
     lightboxMedia.innerHTML = isVideo
       ? `<video src="${encodeURI(src)}" controls autoplay playsinline></video>`
-      : `<img src="${encodeURI(src)}" alt="${toTitleCase(activeLocation)} fullscreen ${lightboxIndex + 1}">`;
+      : `<img src="${encodeURI(src)}" alt="${getLocationLabel(activeLocation)} fullscreen ${lightboxIndex + 1}">`;
     lightbox.classList.add('open');
     lightbox.setAttribute('aria-hidden', 'false');
   };
@@ -1611,7 +1685,7 @@
     applyLocationMood(location);
     locationTiles.forEach(tile => tile.classList.toggle('active', tile.dataset.location === location));
     timelineStops.forEach(stop => stop.classList.toggle('active', stop.dataset.location === location));
-    travelLocationTitle.textContent = toTitleCase(location);
+    travelLocationTitle.textContent = getLocationLabel(location);
     travelLocationCount.textContent = `${items.length} moments loaded`;
     travelLocationJoke.textContent = travelQuips[location] || "Travel mode is active and my backpack is emotionally overpacked.";
     const videoCount = items.filter(src => src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.mov') || src.toLowerCase().endsWith('.m4v')).length;
@@ -1627,18 +1701,41 @@
       const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.mov') || src.toLowerCase().endsWith('.m4v');
       const mediaElement = isVideo
         ? `<video src="${encodeURI(src)}" controls preload="metadata" playsinline></video>`
-        : `<img src="${encodeURI(src)}" alt="${toTitleCase(location)} memory ${index + 1}">`;
+        : `<img src="${encodeURI(src)}" alt="${getLocationLabel(location)} memory ${index + 1}">`;
       const caption = travelCaptionPool[index % travelCaptionPool.length];
-      return `<article class="travel-card ${chooseSpanClass(index)}" data-media-index="${index}" style="--i:${index};">${mediaElement}<div class="travel-meta"><h4>${toTitleCase(location)}</h4><p>${caption}</p></div></article>`;
+      return `<article class="travel-card ${chooseSpanClass(index)}" data-media-index="${index}" style="--i:${index};">${mediaElement}<div class="travel-meta"><h4>${getLocationLabel(location)}</h4><p>${caption}</p></div></article>`;
     }).join('');
     travelGallery.scrollLeft = 0;
     attachTilt('.travel-card');
+  };
+  const renderMusicGallery = () => {
+    if (!musicGallery) return;
+    const videoCount = musicMedia.filter(src => src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.mov') || src.toLowerCase().endsWith('.m4v')).length;
+    if (musicLocationCount) musicLocationCount.textContent = `${musicMedia.length} moments loaded`;
+    if (musicStats) {
+      musicStats.innerHTML = `
+        <span class="travel-chip">${musicMedia.length} total frames</span>
+        <span class="travel-chip">${videoCount} moving memories</span>
+        <span class="travel-chip">Music folder connected</span>
+      `;
+    }
+    musicGallery.innerHTML = musicMedia.map((src, index) => {
+      const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.mov') || src.toLowerCase().endsWith('.m4v');
+      const mediaElement = isVideo
+        ? `<video src="${encodeURI(src)}" controls preload="metadata" playsinline></video>`
+        : `<img src="${encodeURI(src)}" alt="Music memory ${index + 1}">`;
+      const caption = musicCaptionPool[index % musicCaptionPool.length];
+      return `<article class="travel-card ${chooseSpanClass(index)} music-card" data-music-index="${index}" style="--i:${index};">${mediaElement}<div class="travel-meta"><h4>Music</h4><p>${caption}</p></div></article>`;
+    }).join('');
+    musicGallery.scrollLeft = 0;
+    attachTilt('.music-card');
   };
 
   const setAboutTab = (tabName) => {
     aboutTabs.forEach(tab => tab.classList.toggle('active', tab.dataset.aboutTab === tabName));
     aboutPanels.forEach(panel => panel.classList.toggle('active', panel.dataset.aboutPanel === tabName));
     if (tabName === 'travel') renderTravelLocation(document.querySelector('.location-tile.active')?.dataset.location || 'Singapore');
+    if (tabName === 'music') renderMusicGallery();
   };
   aboutTabs.forEach(tab => {
     tab.addEventListener('click', () => setAboutTab(tab.dataset.aboutTab));
@@ -1655,10 +1752,22 @@
   travelNextBtn?.addEventListener('click', () => {
     travelGallery?.scrollBy({ left: Math.max(260, travelGallery.clientWidth * 0.8), behavior: 'smooth' });
   });
+  musicPrevBtn?.addEventListener('click', () => {
+    musicGallery?.scrollBy({ left: -Math.max(260, musicGallery.clientWidth * 0.8), behavior: 'smooth' });
+  });
+  musicNextBtn?.addEventListener('click', () => {
+    musicGallery?.scrollBy({ left: Math.max(260, musicGallery.clientWidth * 0.8), behavior: 'smooth' });
+  });
   travelGallery?.addEventListener('wheel', (event) => {
     if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
       event.preventDefault();
       travelGallery.scrollBy({ left: event.deltaY });
+    }
+  }, { passive: false });
+  musicGallery?.addEventListener('wheel', (event) => {
+    if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+      event.preventDefault();
+      musicGallery.scrollBy({ left: event.deltaY });
     }
   }, { passive: false });
   travelGallery?.addEventListener('click', (event) => {
@@ -1666,6 +1775,15 @@
     if (!card) return;
     const idx = Number(card.dataset.mediaIndex);
     if (!Number.isNaN(idx)) openLightbox(idx);
+  });
+  musicGallery?.addEventListener('click', (event) => {
+    const card = event.target.closest('.music-card');
+    if (!card) return;
+    const idx = Number(card.dataset.musicIndex);
+    if (Number.isNaN(idx)) return;
+    activeLocation = 'music';
+    activeLocationItems = musicMedia;
+    openLightbox(idx);
   });
   lightboxPrev?.addEventListener('click', () => shiftLightbox(-1));
   lightboxNext?.addEventListener('click', () => shiftLightbox(1));
@@ -1680,6 +1798,7 @@
     if (event.key === 'ArrowLeft') shiftLightbox(-1);
   });
   renderTravelLocation(document.querySelector('.location-tile.active')?.dataset.location || 'Singapore');
+  renderMusicGallery();
   attachTilt('.vibe-card, .location-tile');
 
   const viewWorkBtn = document.querySelector('#view-work');
