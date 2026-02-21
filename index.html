@@ -1439,6 +1439,7 @@
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   const introOverlay = document.querySelector('#intro-overlay');
   const navTargets = document.querySelectorAll('[data-nav-target]');
+  const aboutTabLinks = document.querySelectorAll('[data-about-tab-link]');
   const parallaxLayers = document.querySelectorAll('.parallax-layer');
   window.addEventListener('load', () => {
     setTimeout(() => {
@@ -1448,6 +1449,10 @@
   });
   const setActiveNavLink = (sectionId) => {
     navTargets.forEach(link => link.classList.toggle('active-link', link.dataset.navTarget === `#${sectionId}`));
+  };
+  const setActiveAboutTabLink = (tabName) => {
+    aboutTabLinks.forEach(link => link.classList.toggle('active-link', link.dataset.aboutTabLink === tabName));
+    document.querySelector('#about-nav [data-nav-target="#about-me"]')?.classList.remove('active-link');
   };
   const sectionSpy = new IntersectionObserver((entries) => {
     entries.forEach(entry => { if (entry.isIntersecting) setActiveNavLink(entry.target.id); });
@@ -1867,6 +1872,7 @@
   const setAboutTab = (tabName) => {
     aboutTabs.forEach(tab => tab.classList.toggle('active', tab.dataset.aboutTab === tabName));
     aboutPanels.forEach(panel => panel.classList.toggle('active', panel.dataset.aboutPanel === tabName));
+    setActiveAboutTabLink(tabName);
     if (tabName === 'travel') renderTravelLocation(document.querySelector('.location-tile.active')?.dataset.location || 'Singapore');
     if (tabName === 'eat') renderFoodGallery();
     if (tabName === 'music') renderMusicGallery();
@@ -1978,6 +1984,7 @@
   renderFoodGallery();
   renderMusicGallery();
   renderPaintingsGallery();
+  setActiveAboutTabLink(document.querySelector('.about-tab.active')?.dataset.aboutTab || 'travel');
   attachTilt('.vibe-card, .location-tile');
 
   const viewWorkBtn = document.querySelector('#view-work');
