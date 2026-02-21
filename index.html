@@ -1123,10 +1123,18 @@
     <div class="about-panel" data-about-panel="eat">
       <h3 class="about-panel-title">Eat with me</h3>
       <p class="about-panel-copy">My food strategy is simple: if it smells amazing, I’m emotionally invested already.</p>
-      <div class="vibe-grid">
-        <article class="vibe-card"><div><div class="vibe-kicker">Comfort Pick</div><h4>Chaotic Brunch Buffets</h4><p>I arrive for one plate and leave with six plus a very ambitious iced coffee.</p></div></article>
-        <article class="vibe-card"><div><div class="vibe-kicker">Weekend Ritual</div><h4>Street Food Missions</h4><p>My maps app is mostly pinned with “must try this” places and very little self-control.</p></div></article>
-        <article class="vibe-card"><div><div class="vibe-kicker">Always Yes</div><h4>Dessert Diplomacy</h4><p>Disagreements can be solved with cake. This has not failed me yet.</p></div></article>
+      <div class="travel-stage">
+        <div class="travel-stage-head">
+          <h4>Food memories</h4>
+          <span id="food-location-count" class="travel-count">0 moments loaded</span>
+        </div>
+        <p class="travel-joke">A curated feed of meals that made me pause before the first bite.</p>
+        <div id="food-stats" class="travel-chips"></div>
+        <div class="travel-roller-shell">
+          <button class="travel-roller-btn" id="food-prev" type="button" aria-label="Food roll left">‹</button>
+          <div class="travel-grid" id="food-gallery"></div>
+          <button class="travel-roller-btn" id="food-next" type="button" aria-label="Food roll right">›</button>
+        </div>
       </div>
     </div>
 
@@ -1390,7 +1398,7 @@
   <span>© 2026 Priyanka Sidhani</span>
   <div class="footer-links">
     <a href="mailto:sidhanipriyanka@gmail.com">Email</a>
-    <a href="https://linkedin.com/in/" target="_blank">LinkedIn</a>
+    <a href="https://www.linkedin.com/in/priyanka-sidhani-55a40780/" target="_blank">LinkedIn</a>
     <a href="tel:+971501738339">Phone</a>
   </div>
 </footer>
@@ -1446,6 +1454,11 @@
   const travelStats = document.querySelector('#travel-stats');
   const travelPrevBtn = document.querySelector('#travel-prev');
   const travelNextBtn = document.querySelector('#travel-next');
+  const foodGallery = document.querySelector('#food-gallery');
+  const foodLocationCount = document.querySelector('#food-location-count');
+  const foodStats = document.querySelector('#food-stats');
+  const foodPrevBtn = document.querySelector('#food-prev');
+  const foodNextBtn = document.querySelector('#food-next');
   const musicGallery = document.querySelector('#music-gallery');
   const musicLocationCount = document.querySelector('#music-location-count');
   const musicStats = document.querySelector('#music-stats');
@@ -1602,6 +1615,7 @@
     arizona: "Arizona",
     thailand: "Thailand",
     "abu-dhabi": "Abu Dhabi",
+    food: "Food",
     music: "Music"
   };
   const toTitleCase = (value) => value.charAt(0).toUpperCase() + value.slice(1);
@@ -1624,6 +1638,40 @@
     "music/WhatsApp Image 2026-02-21 at 03.52.18.jpeg",
     "music/WhatsApp Image 2026-02-21 at 03.52.40.jpeg",
     "music/WhatsApp Video 2026-02-21 at 03.52.18.mp4"
+  ];
+  const foodMedia = [
+    "food/WhatsApp Image 2026-02-21 at 04.23.40 (1).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.40.jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.41 (1).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.41 (2).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.41 (3).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.41.jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.42 (1).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.42 (10).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.42 (11).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.42 (12).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.42 (13).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.42 (14)2.jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.42 (14).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.42 (15).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.42 (16).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.42 (17).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.42 (2).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.42 (3).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.42 (4).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.42 (5).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.42 (6).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.42 (7).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.42 (8).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.42 (9).jpeg",
+    "food/WhatsApp Image 2026-02-21 at 04.23.42.jpeg"
+  ];
+  const foodCaptionPool = [
+    "First bite approved",
+    "Saved to cravings",
+    "Plate goals unlocked",
+    "Chef-level temptation",
+    "Would reorder instantly"
   ];
   const musicCaptionPool = [
     "Volume up moment",
@@ -1730,11 +1778,34 @@
     musicGallery.scrollLeft = 0;
     attachTilt('.music-card');
   };
+  const renderFoodGallery = () => {
+    if (!foodGallery) return;
+    const videoCount = foodMedia.filter(src => src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.mov') || src.toLowerCase().endsWith('.m4v')).length;
+    if (foodLocationCount) foodLocationCount.textContent = `${foodMedia.length} moments loaded`;
+    if (foodStats) {
+      foodStats.innerHTML = `
+        <span class="travel-chip">${foodMedia.length} total frames</span>
+        <span class="travel-chip">${videoCount} moving memories</span>
+        <span class="travel-chip">Food folder connected</span>
+      `;
+    }
+    foodGallery.innerHTML = foodMedia.map((src, index) => {
+      const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.mov') || src.toLowerCase().endsWith('.m4v');
+      const mediaElement = isVideo
+        ? `<video src="${encodeURI(src)}" controls preload="metadata" playsinline></video>`
+        : `<img src="${encodeURI(src)}" alt="Food memory ${index + 1}">`;
+      const caption = foodCaptionPool[index % foodCaptionPool.length];
+      return `<article class="travel-card ${chooseSpanClass(index)} food-card" data-food-index="${index}" style="--i:${index};">${mediaElement}<div class="travel-meta"><h4>Food</h4><p>${caption}</p></div></article>`;
+    }).join('');
+    foodGallery.scrollLeft = 0;
+    attachTilt('.food-card');
+  };
 
   const setAboutTab = (tabName) => {
     aboutTabs.forEach(tab => tab.classList.toggle('active', tab.dataset.aboutTab === tabName));
     aboutPanels.forEach(panel => panel.classList.toggle('active', panel.dataset.aboutPanel === tabName));
     if (tabName === 'travel') renderTravelLocation(document.querySelector('.location-tile.active')?.dataset.location || 'Singapore');
+    if (tabName === 'eat') renderFoodGallery();
     if (tabName === 'music') renderMusicGallery();
   };
   aboutTabs.forEach(tab => {
@@ -1752,6 +1823,12 @@
   travelNextBtn?.addEventListener('click', () => {
     travelGallery?.scrollBy({ left: Math.max(260, travelGallery.clientWidth * 0.8), behavior: 'smooth' });
   });
+  foodPrevBtn?.addEventListener('click', () => {
+    foodGallery?.scrollBy({ left: -Math.max(260, foodGallery.clientWidth * 0.8), behavior: 'smooth' });
+  });
+  foodNextBtn?.addEventListener('click', () => {
+    foodGallery?.scrollBy({ left: Math.max(260, foodGallery.clientWidth * 0.8), behavior: 'smooth' });
+  });
   musicPrevBtn?.addEventListener('click', () => {
     musicGallery?.scrollBy({ left: -Math.max(260, musicGallery.clientWidth * 0.8), behavior: 'smooth' });
   });
@@ -1762,6 +1839,12 @@
     if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
       event.preventDefault();
       travelGallery.scrollBy({ left: event.deltaY });
+    }
+  }, { passive: false });
+  foodGallery?.addEventListener('wheel', (event) => {
+    if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+      event.preventDefault();
+      foodGallery.scrollBy({ left: event.deltaY });
     }
   }, { passive: false });
   musicGallery?.addEventListener('wheel', (event) => {
@@ -1775,6 +1858,15 @@
     if (!card) return;
     const idx = Number(card.dataset.mediaIndex);
     if (!Number.isNaN(idx)) openLightbox(idx);
+  });
+  foodGallery?.addEventListener('click', (event) => {
+    const card = event.target.closest('.food-card');
+    if (!card) return;
+    const idx = Number(card.dataset.foodIndex);
+    if (Number.isNaN(idx)) return;
+    activeLocation = 'food';
+    activeLocationItems = foodMedia;
+    openLightbox(idx);
   });
   musicGallery?.addEventListener('click', (event) => {
     const card = event.target.closest('.music-card');
@@ -1798,6 +1890,7 @@
     if (event.key === 'ArrowLeft') shiftLightbox(-1);
   });
   renderTravelLocation(document.querySelector('.location-tile.active')?.dataset.location || 'Singapore');
+  renderFoodGallery();
   renderMusicGallery();
   attachTilt('.vibe-card, .location-tile');
 
