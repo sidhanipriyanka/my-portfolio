@@ -128,8 +128,38 @@
     background: var(--nav-glass);
     border-bottom: 1px solid var(--border);
   }
-  .logo { font-family: 'Instrument Serif', serif; font-size: 1.4rem; color: var(--text); }
-  .logo span { color: var(--accent); }
+  .logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.4rem;
+    color: var(--text);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo .logo-dot { color: var(--accent); }
+  .logo-mode-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    line-height: 1;
+  }
+  .logo-work-icon,
+  .logo-play-icon {
+    width: 45px;
+    height: 45px;
+    display: block;
+  }
+  .logo-work-icon {
+    color: currentColor;
+  }
+  .logo-play-icon {
+    object-fit: contain;
+    display: none;
+  }
+  body.about-mode .logo-work-icon { display: none; }
+  body.about-mode .logo-play-icon { display: block; }
   .nav-left { display: flex; align-items: center; gap: 18px; }
   .mode-switch {
     display: inline-flex;
@@ -262,23 +292,6 @@
     font-family: 'Space Mono', monospace; font-size: 0.65rem;
     color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 6px;
   }
-
-  /* ── MARQUEE ── */
-  .marquee-section {
-    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-    padding: 28px 0; overflow: hidden;
-  }
-  .marquee-track {
-    display: flex; width: max-content; animation: marquee 40s linear infinite;
-  }
-  .marquee-item {
-    font-family: 'Instrument Serif', serif; font-size: 1.3rem; white-space: nowrap;
-    color: var(--text-dim); opacity: 0.35; display: flex; align-items: center;
-    gap: 32px; padding-right: 32px; transition: opacity 0.3s;
-  }
-  .marquee-item:hover { opacity: 0.7; }
-  .marquee-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
-  @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 
   /* ── SECTIONS ── */
   section { padding: 120px 48px; max-width: 1400px; margin: 0 auto; }
@@ -630,6 +643,7 @@
     overflow: hidden;
     border: 1px solid var(--border);
     min-height: 220px;
+    aspect-ratio: 4 / 5;
     background: var(--surface2);
     box-shadow: 0 10px 28px rgba(0,0,0,0.1);
     transform: translateY(22px) scale(0.985) rotateX(0deg) rotateY(0deg);
@@ -645,13 +659,15 @@
   .travel-card video {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
     display: block;
-    transition: transform 0.45s ease;
+    background: linear-gradient(140deg, rgba(0,0,0,0.08), rgba(0,0,0,0.18));
+    transition: none;
   }
   .travel-card:hover img,
   .travel-card:hover video {
-    transform: scale(1.06);
+    transform: none;
   }
   .travel-card:hover {
     box-shadow: 0 22px 48px rgba(0,0,0,0.18);
@@ -686,6 +702,11 @@
   }
   .travel-card.span-6 { flex-basis: clamp(340px, 42vw, 520px); }
   .travel-card.span-4 { flex-basis: clamp(260px, 30vw, 360px); }
+  .about-content .travel-card,
+  .about-content .travel-card.span-6,
+  .about-content .travel-card.span-4 {
+    flex-basis: clamp(260px, 30vw, 360px);
+  }
   .vibe-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1002,6 +1023,9 @@
     .travel-location-grid { grid-template-columns: repeat(3, 1fr); }
     .travel-card { flex-basis: clamp(230px, 45vw, 360px); }
     .travel-card.span-6, .travel-card.span-4 { flex-basis: clamp(230px, 45vw, 360px); }
+    .about-content .travel-card,
+    .about-content .travel-card.span-6,
+    .about-content .travel-card.span-4 { flex-basis: clamp(230px, 45vw, 360px); }
     .vibe-grid { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 768px) {
@@ -1048,6 +1072,9 @@
     .travel-roller-btn { display: none; }
     .travel-card { flex-basis: 82vw; }
     .travel-card.span-6, .travel-card.span-4 { flex-basis: 82vw; }
+    .about-content .travel-card,
+    .about-content .travel-card.span-6,
+    .about-content .travel-card.span-4 { flex-basis: 82vw; }
     .travel-card { min-height: 200px; }
     .vibe-grid { grid-template-columns: 1fr; }
     .lightbox-btn { display: none; }
@@ -1076,7 +1103,7 @@
 
 <nav>
   <div class="nav-left">
-    <div class="logo">PS<span>.</span></div>
+    <div class="logo">PS<span class="logo-dot">.</span><span class="logo-mode-icon" aria-hidden="true"><svg class="logo-work-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 6.5V5.5C8 4.67157 8.67157 4 9.5 4H14.5C15.3284 4 16 4.67157 16 5.5V6.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="3.5" y="6.5" width="17" height="13" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 12H10.2M13.8 12H20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="10.2" y="10.8" width="3.6" height="2.4" rx="0.6" fill="currentColor"/></svg><img class="logo-play-icon" src="cat.png" alt="" aria-hidden="true"></span></div>
     <div class="mode-switch">
       <button id="view-work" class="mode-btn active" type="button">Work</button>
       <button id="view-about" class="mode-btn" type="button">Play</button>
@@ -1102,10 +1129,6 @@
 
 <!-- HERO -->
 <div class="hero work-content">
-  <div class="hero-top">
-    <span class="hero-location">Abu Dhabi, UAE</span>
-    <span class="hero-badge"><span class="pulse"></span> Open to opportunities — April 2026</span>
-  </div>
   <h1 class="hero-title">
     The <em class="serif-italic">program</em><sup>©</sup><br>
     <span class="outline-text">manager</span> behind<br>
@@ -1129,30 +1152,6 @@
         <div class="stat-label">Revenue Impact</div>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- MARQUEE -->
-<div class="marquee-section work-content">
-  <div class="marquee-track">
-    <span class="marquee-item">Ownership <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Customer Obsession <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Deliver Results <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Invent & Simplify <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Bias for Action <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Dive Deep <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Earn Trust <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Think Big <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Highest Standards <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Ownership <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Customer Obsession <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Deliver Results <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Invent & Simplify <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Bias for Action <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Dive Deep <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Earn Trust <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Think Big <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Highest Standards <span class="marquee-dot"></span></span>
   </div>
 </div>
 
@@ -1290,9 +1289,64 @@
 </section>
 
 <!-- KEY CONTRIBUTIONS -->
+<section id="experience" class="work-content">
+  <div class="section-label reveal">Career</div>
+  <h2 class="section-title reveal">10 years of <em>progressive</em> growth</h2>
+  <div class="exp-grid">
+    <div class="exp-card reveal">
+      <div class="exp-header">
+        <div class="exp-role">Senior Program Manager</div>
+        <span class="exp-date">Oct 2022 → Present</span>
+      </div>
+      <div class="exp-company">Amazon <span class="dot"></span> Hyderabad, India</div>
+      <ul class="exp-bullets">
+        <li>Spearheaded marketplace expansion into 3 MENA countries — orchestrating 25+ members to launch 1,000+ categories 20% ahead of schedule, enabling $2M growth.</li>
+        <li>Architected AI-powered metadata auditing: 300 → 1,200 items/day (4×), defect resolution time down 65%.</li>
+        <li>Migrated 6 listing features across 8 engineering teams, 4 time zones — 100% on-time, 99% uptime.</li>
+        <li>8+ workflow optimizations via retrospectives, reducing overhead ~30% QoQ.</li>
+      </ul>
+    </div>
+    <div class="exp-card reveal">
+      <div class="exp-header">
+        <div class="exp-role">Program Manager</div>
+        <span class="exp-date">Jul 2021 → Oct 2022</span>
+      </div>
+      <div class="exp-company">Amazon <span class="dot"></span> Hyderabad</div>
+      <ul class="exp-bullets">
+        <li>Resolved 15,000+ Arabic translation errors across 3 markets, reducing localization issues ~40%.</li>
+        <li>Standardized 119K+ variations across 2,100 categories — framework adopted by 4+ teams.</li>
+        <li>Built onboarding program (20+ hrs, 3 modules) cutting ramp-up 80%, saving 250+ hrs/year.</li>
+      </ul>
+    </div>
+    <div class="exp-card reveal reveal-delay-1">
+      <div class="exp-header">
+        <div class="exp-role">Team Lead — Tech Config</div>
+        <span class="exp-date">Jul 2020 → Jul 2021</span>
+      </div>
+      <div class="exp-company">Amazon <span class="dot"></span> Hyderabad</div>
+      <ul class="exp-bullets">
+        <li>Managed 6 direct reports, 100% on-time delivery across compliance-critical processes.</li>
+        <li>Launched Amazon Seller Central in Sweden & Poland — 2 new EU markets.</li>
+      </ul>
+    </div>
+    <div class="exp-card reveal reveal-delay-2">
+      <div class="exp-header">
+        <div class="exp-role">Early Career Progression</div>
+        <span class="exp-date">Oct 2015 → Jul 2020</span>
+      </div>
+      <div class="exp-company">Amazon <span class="dot"></span> 5 Roles</div>
+      <ul class="exp-bullets">
+        <li>Customer Service → Seller Support (NA & EU) → Technical Configuration.</li>
+        <li>Led technical config for international marketplace launches.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- KEY CONTRIBUTIONS -->
 <section id="contributions" class="work-content">
   <div class="section-label reveal">Key Contributions</div>
-  <h2 class="section-title reveal">Featured <em>impact</em> at Amazon — Q1 2025 Review</h2>
+  <h2 class="section-title reveal">Featured <em>impact</em> at Amazon</h2>
   <div class="contributions-grid">
     <div class="contrib-row reveal" onclick="this.classList.toggle('expanded')">
       <span class="contrib-num">(01)</span>
@@ -1385,61 +1439,6 @@
   </div>
 </section>
 
-<!-- EXPERIENCE -->
-<section id="experience" class="work-content">
-  <div class="section-label reveal">Career</div>
-  <h2 class="section-title reveal">10 years of <em>progressive</em> growth</h2>
-  <div class="exp-grid">
-    <div class="exp-card reveal">
-      <div class="exp-header">
-        <div class="exp-role">Senior Program Manager</div>
-        <span class="exp-date">Oct 2022 → Present</span>
-      </div>
-      <div class="exp-company">Amazon <span class="dot"></span> Hyderabad, India</div>
-      <ul class="exp-bullets">
-        <li>Spearheaded marketplace expansion into 3 MENA countries — orchestrating 25+ members to launch 1,000+ categories 20% ahead of schedule, enabling $2M growth.</li>
-        <li>Architected AI-powered metadata auditing: 300 → 1,200 items/day (4×), defect resolution time down 65%.</li>
-        <li>Migrated 6 listing features across 8 engineering teams, 4 time zones — 100% on-time, 99% uptime.</li>
-        <li>8+ workflow optimizations via retrospectives, reducing overhead ~30% QoQ.</li>
-      </ul>
-    </div>
-    <div class="exp-card reveal">
-      <div class="exp-header">
-        <div class="exp-role">Program Manager</div>
-        <span class="exp-date">Jul 2021 → Oct 2022</span>
-      </div>
-      <div class="exp-company">Amazon <span class="dot"></span> Hyderabad</div>
-      <ul class="exp-bullets">
-        <li>Resolved 15,000+ Arabic translation errors across 3 markets, reducing localization issues ~40%.</li>
-        <li>Standardized 119K+ variations across 2,100 categories — framework adopted by 4+ teams.</li>
-        <li>Built onboarding program (20+ hrs, 3 modules) cutting ramp-up 80%, saving 250+ hrs/year.</li>
-      </ul>
-    </div>
-    <div class="exp-card reveal reveal-delay-1">
-      <div class="exp-header">
-        <div class="exp-role">Team Lead — Tech Config</div>
-        <span class="exp-date">Jul 2020 → Jul 2021</span>
-      </div>
-      <div class="exp-company">Amazon <span class="dot"></span> Hyderabad</div>
-      <ul class="exp-bullets">
-        <li>Managed 6 direct reports, 100% on-time delivery across compliance-critical processes.</li>
-        <li>Launched Amazon Seller Central in Sweden & Poland — 2 new EU markets.</li>
-      </ul>
-    </div>
-    <div class="exp-card reveal reveal-delay-2">
-      <div class="exp-header">
-        <div class="exp-role">Early Career Progression</div>
-        <span class="exp-date">Oct 2015 → Jul 2020</span>
-      </div>
-      <div class="exp-company">Amazon <span class="dot"></span> 5 Roles</div>
-      <ul class="exp-bullets">
-        <li>Customer Service → Seller Support (NA & EU) → Technical Configuration.</li>
-        <li>Led technical config for international marketplace launches.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
 <!-- SKILLS -->
 <section id="skills" class="work-content">
   <div class="section-label reveal">Toolkit</div>
@@ -1506,13 +1505,12 @@
 <!-- CTA -->
 <div class="cta-section work-content" id="contact">
   <h2 class="cta-title reveal">Let's build<br>something <em>bold.</em></h2>
-  <p class="cta-desc reveal reveal-delay-1">Open to Senior Program Manager roles in the UAE. Available April 2026 — happy to discuss earlier start dates.</p>
   <div class="cta-links reveal reveal-delay-2">
     <a href="mailto:sidhanipriyanka@gmail.com" class="cta-primary">sidhanipriyanka@gmail.com</a>
     <a href="tel:+971501738339" class="cta-outline">+971 50 173 8339</a>
     <a href="https://www.linkedin.com/in/priyanka-sidhani-55a40780/" target="_blank" class="cta-outline">LinkedIn</a>
   </div>
-  <div class="cta-mono reveal reveal-delay-3">Abu Dhabi, UAE · Available with NOC</div>
+  <div class="cta-mono reveal reveal-delay-3">Abu Dhabi, UAE</div>
 </div>
 
 <footer>
@@ -1618,7 +1616,6 @@
       "Singapore/WhatsApp Image 2026-02-21 at 03.10.43 (13).jpeg",
       "Singapore/WhatsApp Image 2026-02-21 at 03.10.43 (2).jpeg",
       "Singapore/WhatsApp Image 2026-02-21 at 03.10.43 (3).jpeg",
-      "Singapore/WhatsApp Image 2026-02-21 at 03.10.43 (4).jpeg",
       "Singapore/WhatsApp Image 2026-02-21 at 03.10.43 (5).jpeg",
       "Singapore/WhatsApp Image 2026-02-21 at 03.10.43 (6).jpeg",
       "Singapore/WhatsApp Image 2026-02-21 at 03.10.43 (7).jpeg",
@@ -1779,7 +1776,6 @@
     "food/WhatsApp Image 2026-02-21 at 04.23.40.jpeg",
     "food/WhatsApp Image 2026-02-21 at 04.23.41 (1).jpeg",
     "food/WhatsApp Image 2026-02-21 at 04.23.41 (2).jpeg",
-    "food/WhatsApp Image 2026-02-21 at 04.23.41 (3).jpeg",
     "food/WhatsApp Image 2026-02-21 at 04.23.41.jpeg",
     "food/WhatsApp Image 2026-02-21 at 04.23.42 (1).jpeg",
     "food/WhatsApp Image 2026-02-21 at 04.23.42 (10).jpeg",
@@ -1791,7 +1787,6 @@
     "food/WhatsApp Image 2026-02-21 at 04.23.42 (15).jpeg",
     "food/WhatsApp Image 2026-02-21 at 04.23.42 (16).jpeg",
     "food/WhatsApp Image 2026-02-21 at 04.23.42 (17).jpeg",
-    "food/WhatsApp Image 2026-02-21 at 04.23.42 (2).jpeg",
     "food/WhatsApp Image 2026-02-21 at 04.23.42 (3).jpeg",
     "food/WhatsApp Image 2026-02-21 at 04.23.42 (4).jpeg",
     "food/WhatsApp Image 2026-02-21 at 04.23.42 (5).jpeg",
