@@ -1212,6 +1212,7 @@
     <li><a href="#" data-about-tab-link="travel">Travel</a></li>
     <li><a href="#" data-about-tab-link="eat">Eat</a></li>
     <li><a href="#" data-about-tab-link="music">Music</a></li>
+    <li><a href="#" data-about-tab-link="pets">Pets</a></li>
   </ul>
 </nav>
 
@@ -1252,7 +1253,8 @@
     <div class="about-tabs">
       <button class="about-tab active" data-about-tab="travel">Travel with me</button>
       <button class="about-tab" data-about-tab="eat">Eat with me</button>
-      <button class="about-tab" data-about-tab="music">Listen to music with me</button>
+      <button class="about-tab" data-about-tab="music">Vibe with me</button>
+      <button class="about-tab" data-about-tab="pets">Give pets with me</button>
     </div>
 
     <div class="about-panel active" data-about-panel="travel">
@@ -1340,6 +1342,24 @@
           <button class="travel-roller-btn" id="music-prev" type="button" aria-label="Music roll left">‹</button>
           <div class="travel-grid" id="music-gallery"></div>
           <button class="travel-roller-btn" id="music-next" type="button" aria-label="Music roll right">›</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-panel" data-about-panel="pets">
+      <h3 class="about-panel-title">Give pets with me</h3>
+      <p class="about-panel-copy">Every animal gets a proper greeting. Bonus points if they are fluffy, dramatic, or both.</p>
+      <div class="travel-stage">
+        <div class="travel-stage-head">
+          <h4>Pet moments</h4>
+          <span id="pets-location-count" class="travel-count">0 moments loaded</span>
+        </div>
+        <p class="travel-joke">Tiny paws, big personalities, and a camera roll full of serotonin.</p>
+        <div id="pets-stats" class="travel-chips"></div>
+        <div class="travel-roller-shell">
+          <button class="travel-roller-btn" id="pets-prev" type="button" aria-label="Pets roll left">‹</button>
+          <div class="travel-grid" id="pets-gallery"></div>
+          <button class="travel-roller-btn" id="pets-next" type="button" aria-label="Pets roll right">›</button>
         </div>
       </div>
     </div>
@@ -1663,6 +1683,11 @@
   const musicStats = document.querySelector('#music-stats');
   const musicPrevBtn = document.querySelector('#music-prev');
   const musicNextBtn = document.querySelector('#music-next');
+  const petsGallery = document.querySelector('#pets-gallery');
+  const petsLocationCount = document.querySelector('#pets-location-count');
+  const petsStats = document.querySelector('#pets-stats');
+  const petsPrevBtn = document.querySelector('#pets-prev');
+  const petsNextBtn = document.querySelector('#pets-next');
   const paintingsGallery = document.querySelector('#paintings-gallery');
   const paintingsLocationCount = document.querySelector('#paintings-location-count');
   const paintingsStats = document.querySelector('#paintings-stats');
@@ -1823,6 +1848,7 @@
     "abu-dhabi": "Abu Dhabi",
     food: "Food",
     music: "Music",
+    pets: "Pets",
     paintings: "Paintings"
   };
   const toTitleCase = (value) => value.charAt(0).toUpperCase() + value.slice(1);
@@ -1877,6 +1903,38 @@
     "Plate goals unlocked",
     "Chef-level temptation",
     "Would reorder instantly"
+  ];
+  const petsMedia = [
+    "pets/WhatsApp Image 2026-02-22 at 01.31.40 (1).jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.35.52 (3).jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.35.52 (6).jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.35.52 (7).jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.35.52 (4).jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.31.40 (3).jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.31.40 (4).jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.31.40.jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.35.51 (1).jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.35.51 (2).jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.35.51 (3).jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.35.51 (4).jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.35.51.jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.31.40 (2).jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.35.52 (1).jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.35.52 (2).jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.35.52 (5).jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.35.52 (8).jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.35.52 (9).jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.31.40 (5).jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.31.40 (6).jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.31.40 (7).jpeg",
+    "pets/WhatsApp Image 2026-02-22 at 01.35.52.jpeg"
+  ];
+  const petsCaptionPool = [
+    "Certified cuteness",
+    "Tail-wag moment",
+    "Paws and pause",
+    "Instant mood boost",
+    "Neighborhood celebrity"
   ];
   const paintingsMedia = [
     "paintings/Screenshot from 2026-02-21 15-11-29.png",
@@ -2057,6 +2115,28 @@
     paintingsGallery.scrollLeft = 0;
     attachTilt('.paintings-card');
   };
+  const renderPetsGallery = () => {
+    if (!petsGallery) return;
+    const videoCount = petsMedia.filter(src => src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.mov') || src.toLowerCase().endsWith('.m4v')).length;
+    if (petsLocationCount) petsLocationCount.textContent = `${petsMedia.length} moments loaded`;
+    if (petsStats) {
+      petsStats.innerHTML = `
+        <span class="travel-chip">${petsMedia.length} total frames</span>
+        <span class="travel-chip">${videoCount} moving memories</span>
+        <span class="travel-chip">Pets folder connected</span>
+      `;
+    }
+    petsGallery.innerHTML = petsMedia.map((src, index) => {
+      const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.mov') || src.toLowerCase().endsWith('.m4v');
+      const mediaElement = isVideo
+        ? `<video src="${encodeURI(src)}" controls preload="metadata" playsinline></video>`
+        : `<img src="${encodeURI(src)}" alt="Pet memory ${index + 1}">`;
+      const caption = petsCaptionPool[index % petsCaptionPool.length];
+      return `<article class="travel-card ${chooseSpanClass(index)} pets-card" data-pets-index="${index}" style="--i:${index};">${mediaElement}<div class="travel-meta"><h4>Pets</h4><p>${caption}</p></div></article>`;
+    }).join('');
+    petsGallery.scrollLeft = 0;
+    attachTilt('.pets-card');
+  };
 
   const setAboutTab = (tabName) => {
     aboutTabs.forEach(tab => tab.classList.toggle('active', tab.dataset.aboutTab === tabName));
@@ -2065,6 +2145,7 @@
     if (tabName === 'travel') renderTravelLocation(document.querySelector('.location-tile.active')?.dataset.location || 'Singapore');
     if (tabName === 'eat') renderFoodGallery();
     if (tabName === 'music') renderMusicGallery();
+    if (tabName === 'pets') renderPetsGallery();
     if (tabName === 'paintings') renderPaintingsGallery();
   };
   aboutTabs.forEach(tab => {
@@ -2109,6 +2190,12 @@
   musicNextBtn?.addEventListener('click', () => {
     musicGallery?.scrollBy({ left: Math.max(260, musicGallery.clientWidth * 0.8), behavior: 'smooth' });
   });
+  petsPrevBtn?.addEventListener('click', () => {
+    petsGallery?.scrollBy({ left: -Math.max(260, petsGallery.clientWidth * 0.8), behavior: 'smooth' });
+  });
+  petsNextBtn?.addEventListener('click', () => {
+    petsGallery?.scrollBy({ left: Math.max(260, petsGallery.clientWidth * 0.8), behavior: 'smooth' });
+  });
   paintingsPrevBtn?.addEventListener('click', () => {
     paintingsGallery?.scrollBy({ left: -Math.max(260, paintingsGallery.clientWidth * 0.8), behavior: 'smooth' });
   });
@@ -2131,6 +2218,12 @@
     if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
       event.preventDefault();
       musicGallery.scrollBy({ left: event.deltaY });
+    }
+  }, { passive: false });
+  petsGallery?.addEventListener('wheel', (event) => {
+    if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+      event.preventDefault();
+      petsGallery.scrollBy({ left: event.deltaY });
     }
   }, { passive: false });
   paintingsGallery?.addEventListener('wheel', (event) => {
@@ -2163,6 +2256,15 @@
     activeLocationItems = musicMedia;
     openLightbox(idx);
   });
+  petsGallery?.addEventListener('click', (event) => {
+    const card = event.target.closest('.pets-card');
+    if (!card) return;
+    const idx = Number(card.dataset.petsIndex);
+    if (Number.isNaN(idx)) return;
+    activeLocation = 'pets';
+    activeLocationItems = petsMedia;
+    openLightbox(idx);
+  });
   paintingsGallery?.addEventListener('click', (event) => {
     const card = event.target.closest('.paintings-card');
     if (!card) return;
@@ -2187,6 +2289,7 @@
   renderTravelLocation(document.querySelector('.location-tile.active')?.dataset.location || 'Singapore');
   renderFoodGallery();
   renderMusicGallery();
+  renderPetsGallery();
   renderPaintingsGallery();
   setActiveAboutTabLink(document.querySelector('.about-tab.active')?.dataset.aboutTab || 'travel');
   attachTilt('.vibe-card, .location-tile');
