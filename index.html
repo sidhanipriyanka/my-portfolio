@@ -825,7 +825,7 @@
   }
 
   /* ── EXPERIENCE ── */
-  .exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .exp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   .exp-card {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: var(--radius-lg); padding: 36px; transition: all 0.4s;
@@ -895,18 +895,52 @@
 
   /* ── SKILLS COLS ── */
   .skills-cols {
-    display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px;
-    background: var(--border); border-radius: var(--radius-lg); overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
-  .skill-col { background: var(--surface); padding: 28px 20px; text-align: center; transition: all 0.3s; }
-  .skill-col:hover { background: var(--surface2); }
-  .skill-col h4 {
-    font-family: 'Instrument Serif', serif; font-size: 1rem; color: var(--white);
-    margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border);
+  .skill-col {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 0;
+    text-align: left;
+    transition: all 0.3s;
+    overflow: hidden;
   }
-  .skill-col .skill-list { display: flex; flex-direction: column; gap: 8px; }
+  .skill-col:hover { background: var(--surface2); border-color: rgba(232,93,58,0.28); }
+  .skill-toggle {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.05rem;
+    color: var(--white);
+    padding: 16px 18px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  .skill-toggle::after {
+    content: '+';
+    font-family: 'Space Mono', monospace;
+    color: var(--accent);
+    font-size: 1rem;
+    line-height: 1;
+  }
+  .skill-col.expanded .skill-toggle::after { content: '-'; }
+  .skill-col.expanded .skill-toggle { border-bottom: 1px solid var(--border); }
+  .skill-toggle:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 6px;
+  }
+  .skill-col .skill-list { display: none; flex-direction: column; gap: 6px; padding: 10px 18px 14px; }
+  .skill-col.expanded .skill-list { display: flex; }
   .skill-col .skill-list span {
-    font-size: 0.75rem; color: var(--text-dim); padding: 6px 0;
+    font-size: 0.74rem; color: var(--text-dim); padding: 4px 0;
     border-bottom: 1px solid rgba(255,255,255,0.03); transition: color 0.2s;
   }
   .skill-col .skill-list span:hover { color: var(--text); }
@@ -1058,7 +1092,6 @@
 
   /* ── RESPONSIVE ── */
   @media (max-width: 1024px) {
-    .skills-cols { grid-template-columns: repeat(3, 1fr); }
     .contrib-row { grid-template-columns: 40px 1fr 120px; }
     .contrib-impact { display: none; }
     .testimonial-grid { grid-template-columns: 1fr 1fr; }
@@ -1086,7 +1119,6 @@
     .exp-card:first-child { grid-column: auto; }
     .bento-grid { grid-template-columns: 1fr; }
     .bento-item.span-2 { grid-column: auto; }
-    .skills-cols { grid-template-columns: repeat(2, 1fr); }
     .cred-grid { grid-template-columns: 1fr; }
     .awards-row { grid-template-columns: 1fr; }
     .contrib-row { grid-template-columns: 1fr; gap: 8px; }
@@ -1132,7 +1164,6 @@
     .nav-links { display: none; }
     body.about-mode #about-nav { display: none; }
     .hero-stats { flex-direction: column; gap: 16px; }
-    .skills-cols { grid-template-columns: 1fr; }
     .hero-top { flex-direction: column; gap: 12px; }
   }
 </style>
@@ -1181,7 +1212,7 @@
   </h1>
   <div class="hero-bottom">
     <p class="hero-desc">
-      <strong>Program Manager II at Amazon</strong> with 10 years building, scaling, and shipping across global marketplaces. From MENA expansion to AI-powered automation — I turn complex, cross-functional chaos into delivered results.
+      <strong>Senior Program Manager at Amazon</strong> with 10 years of experience building, scaling, and standardizing across global marketplaces. From launching MENA initiatives to deploying AI-powered automation, I turn complexity into execution.
     </p>
     <div class="hero-stats">
       <div class="stat">
@@ -1479,18 +1510,6 @@
       <div class="bento-heading">Graceful escalation handling</div>
       <div class="bento-text">Navigates escalations with composure — creating clear actionable items and following through consistently.</div>
     </div>
-    <div class="bento-item span-full reveal">
-      <div class="bento-label">Amazon Leadership Principles — Core Strengths</div>
-      <div class="lp-container" style="margin-top:16px;">
-        <span class="lp-pill"><span class="lp-dot"></span>Customer Obsession</span>
-        <span class="lp-pill"><span class="lp-dot"></span>Ownership</span>
-        <span class="lp-pill"><span class="lp-dot"></span>Invent & Simplify</span>
-        <span class="lp-pill"><span class="lp-dot"></span>Bias for Action</span>
-        <span class="lp-pill"><span class="lp-dot"></span>Deliver Results</span>
-        <span class="lp-pill"><span class="lp-dot"></span>Dive Deep</span>
-        <span class="lp-pill"><span class="lp-dot"></span>Earn Trust</span>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -1500,7 +1519,7 @@
   <h2 class="section-title reveal">Skills & <em>capabilities</em></h2>
   <div class="skills-cols reveal">
     <div class="skill-col">
-      <h4>Program</h4>
+      <button class="skill-toggle" type="button" aria-expanded="false">Program</button>
       <div class="skill-list">
         <span>Program Governance</span><span>Agile / Scrum</span><span>Waterfall</span>
         <span>Kanban</span><span>RAID Log</span><span>Release & Change Mgmt</span>
@@ -1508,28 +1527,28 @@
       </div>
     </div>
     <div class="skill-col">
-      <h4>Strategy</h4>
+      <button class="skill-toggle" type="button" aria-expanded="false">Strategy</button>
       <div class="skill-list">
         <span>Product Strategy</span><span>Roadmap Dev</span><span>Go-to-Market</span>
         <span>OKR / KPI</span><span>A/B Testing</span><span>Process Improvement</span><span>Business Case</span>
       </div>
     </div>
     <div class="skill-col">
-      <h4>Leadership</h4>
+      <button class="skill-toggle" type="button" aria-expanded="false">Leadership</button>
       <div class="skill-list">
         <span>Cross-Functional Teams</span><span>Stakeholder Mgmt</span><span>Executive Comms</span>
         <span>Vendor Mgmt</span><span>Seller Mgmt</span><span>Mentoring</span>
       </div>
     </div>
     <div class="skill-col">
-      <h4>Tools</h4>
+      <button class="skill-toggle" type="button" aria-expanded="false">Tools</button>
       <div class="skill-list">
         <span>JIRA</span><span>Asana</span><span>MS Project</span>
         <span>Smartsheet</span><span>Seller Central</span><span>Vendor Central</span><span>Shopify</span>
       </div>
     </div>
     <div class="skill-col">
-      <h4>Technical</h4>
+      <button class="skill-toggle" type="button" aria-expanded="false">Technical</button>
       <div class="skill-list">
         <span>SQL</span><span>Excel (Advanced)</span><span>Data Analytics</span>
         <span>AI/ML Integration</span><span>Process Automation</span><span>Metadata Mgmt</span><span>QA Coordination</span>
@@ -1643,6 +1662,7 @@
 
   const aboutTabs = document.querySelectorAll('[data-about-tab]');
   const aboutPanels = document.querySelectorAll('[data-about-panel]');
+  const skillToggles = document.querySelectorAll('#skills .skill-toggle');
   const travelGallery = document.querySelector('#travel-gallery');
   const travelLocationTitle = document.querySelector('#travel-location-title');
   const travelLocationCount = document.querySelector('#travel-location-count');
@@ -2066,6 +2086,21 @@
   };
   aboutTabs.forEach(tab => {
     tab.addEventListener('click', () => setAboutTab(tab.dataset.aboutTab));
+  });
+  skillToggles.forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      const parent = toggle.closest('.skill-col');
+      if (!parent) return;
+      const shouldExpand = !parent.classList.contains('expanded');
+      document.querySelectorAll('#skills .skill-col.expanded').forEach(col => {
+        col.classList.remove('expanded');
+        col.querySelector('.skill-toggle')?.setAttribute('aria-expanded', 'false');
+      });
+      if (shouldExpand) {
+        parent.classList.add('expanded');
+        toggle.setAttribute('aria-expanded', 'true');
+      }
+    });
   });
   locationTiles.forEach(tile => {
     tile.addEventListener('click', () => renderTravelLocation(tile.dataset.location));
