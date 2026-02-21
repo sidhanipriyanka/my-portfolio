@@ -783,6 +783,45 @@
   }
   .contrib-row:hover .expand-hint { opacity: 1; }
 
+  /* ── TESTIMONIALS ── */
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .testimonial-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 30px 28px;
+    position: relative;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .testimonial-card::before {
+    content: "“";
+    position: absolute;
+    top: 10px;
+    left: 16px;
+    font-family: 'Instrument Serif', serif;
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--accent);
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .testimonial-card p {
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: var(--text-dim);
+    position: relative;
+    z-index: 1;
+  }
+  .testimonial-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(232,93,58,0.35);
+    box-shadow: 0 18px 42px rgba(0,0,0,0.2);
+  }
+
   /* ── EXPERIENCE ── */
   .exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .exp-card {
@@ -1020,6 +1059,7 @@
     .skills-cols { grid-template-columns: repeat(3, 1fr); }
     .contrib-row { grid-template-columns: 40px 1fr 120px; }
     .contrib-impact { display: none; }
+    .testimonial-grid { grid-template-columns: 1fr 1fr; }
     .travel-location-grid { grid-template-columns: repeat(3, 1fr); }
     .travel-card { flex-basis: clamp(230px, 45vw, 360px); }
     .travel-card.span-6, .travel-card.span-4 { flex-basis: clamp(230px, 45vw, 360px); }
@@ -1048,6 +1088,7 @@
     .contrib-row { grid-template-columns: 1fr; gap: 8px; }
     .contrib-num { display: none; }
     .contrib-lp { text-align: left; }
+    .testimonial-grid { grid-template-columns: 1fr; }
     .cta-section { padding: 100px 24px 80px; }
     .hero-bottom { flex-direction: column; gap: 40px; }
     .stat { text-align: left; }
@@ -1499,6 +1540,23 @@
     <div class="award-item reveal"><div class="a-icon">🏆</div><h5>Door to Desk Award</h5><p>Amazon 2023 — MENA marketplace impact</p></div>
     <div class="award-item reveal reveal-delay-1"><div class="a-icon">⭐</div><h5>Power Performer Q2 2024</h5><p>Quarterly excellence in program delivery</p></div>
     <div class="award-item reveal reveal-delay-2"><div class="a-icon">🚀</div><h5>Multiple Program Awards</h5><p>Innovation & efficiency — 10-year tenure</p></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="work-content">
+  <div class="section-label reveal">Testimonials</div>
+  <h2 class="section-title reveal">What peers say about <em>Priyanka</em></h2>
+  <div class="testimonial-grid">
+    <article class="testimonial-card reveal">
+      <p>Priyanka brings exceptional expertise in metadata and a deep understanding of related Listing systems, making her the go-to person for team issues. She also demonstrates strong ownership and a customer-centric approach in the projects she handles, driving them from start to finish. Her excellent communication and writing skills play a key role in managing stakeholder communications and building strong relationships. Additionally, she has earned the trust of the team and is always willing to assist with any challenges that arise.</p>
+    </article>
+    <article class="testimonial-card reveal reveal-delay-1">
+      <p>Priyanka consistently demonstrates exceptional skills in navigating some of the most complex challenges related to metadata and variations—arguably one of the most intricate problem spaces within Amazon. Her unique ability to analyze and resolve complicated metadata issues, identify the most relevant data to address these challenges, and effectively communicate her findings to others is truly commendable. Explaining nuanced topics like metadata and variations in a way that others can understand is no small feat, yet Priyanka excels at both. Her enthusiasm for tackling tough problems is not only admirable but also inspires those around her. It's always a pleasure to collaborate with someone so dedicated and capable.</p>
+    </article>
+    <article class="testimonial-card reveal reveal-delay-2">
+      <p>Priyanka's super power is her ability to drive multiple tracks of complex projects and seek support when needed. She does not hesitate to loop in leadership or Sr, engineers when required to drive a solution that meets the requirements of the project or solves the problem permanently. She used this strength to coordinate with multiple teams and enable migration of Handmade, Luxury and Clayton Programs.</p>
+    </article>
   </div>
 </section>
 
