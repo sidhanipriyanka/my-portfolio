@@ -946,27 +946,41 @@
   .skill-col .skill-list span:hover { color: var(--text); }
 
   /* ── CREDENTIALS ── */
-  .cred-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .cred-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
   .cred-card {
     background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius-lg); padding: 32px; transition: all 0.4s; text-align: center;
+    border-radius: 16px;
+    padding: 20px 18px;
+    transition: all 0.3s;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cred-card::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent4));
+    opacity: 0.8;
   }
   .cred-card:hover { border-color: var(--accent); transform: translateY(-4px); }
-  .cred-emoji { font-size: 2.5rem; margin-bottom: 16px; }
-  .cred-card h4 { font-family: 'Instrument Serif', serif; font-size: 1.15rem; color: var(--white); margin-bottom: 6px; }
-  .cred-card p { font-size: 0.78rem; color: var(--text-dim); line-height: 1.5; }
-  .cred-year { font-family: 'Space Mono', monospace; font-size: 0.68rem; color: var(--accent); margin-top: 8px; }
+  .cred-emoji { font-size: 1.7rem; margin-bottom: 10px; }
+  .cred-card h4 { font-family: 'Instrument Serif', serif; font-size: 1rem; color: var(--white); margin-bottom: 4px; line-height: 1.25; }
+  .cred-card p { font-size: 0.73rem; color: var(--text-dim); line-height: 1.4; }
+  .cred-year { font-family: 'Space Mono', monospace; font-size: 0.62rem; color: var(--accent); margin-top: 6px; }
 
   /* ── AWARDS ── */
-  .awards-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+  .awards-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 28px; }
   .award-item {
     background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius-lg); padding: 28px; text-align: center; transition: all 0.3s;
+    border-radius: 16px; padding: 18px 16px; text-align: center; transition: all 0.25s;
   }
   .award-item:hover { border-color: var(--accent3); transform: rotate(-1deg) translateY(-4px); }
-  .award-item .a-icon { font-size: 2rem; margin-bottom: 10px; }
-  .award-item h5 { font-family: 'Instrument Serif', serif; font-size: 1.05rem; color: var(--white); margin-bottom: 6px; }
-  .award-item p { font-size: 0.75rem; color: var(--text-dim); line-height: 1.5; }
+  .award-item .a-icon { font-size: 1.5rem; margin-bottom: 8px; }
+  .award-item h5 { font-family: 'Instrument Serif', serif; font-size: 0.92rem; color: var(--white); margin-bottom: 5px; line-height: 1.25; }
+  .award-item p { font-size: 0.71rem; color: var(--text-dim); line-height: 1.4; }
 
   /* ── CTA ── */
   .cta-section {
@@ -1198,8 +1212,7 @@
     <li><a href="#" data-about-tab-link="travel">Travel</a></li>
     <li><a href="#" data-about-tab-link="eat">Eat</a></li>
     <li><a href="#" data-about-tab-link="music">Music</a></li>
-    <li><a href="#" data-about-tab-link="paintings">Paint</a></li>
-    <li><a href="#" data-about-tab-link="walk">Walk</a></li>
+    <li><a href="#" data-about-tab-link="bake">Bake</a></li>
   </ul>
 </nav>
 
@@ -1224,7 +1237,7 @@
         <div class="stat-label">Efficiency Gain</div>
       </div>
       <div class="stat">
-        <div class="stat-value"><span class="gold">$2M</span>+</div>
+        <div class="stat-value"><span class="gold">$20M</span>+</div>
         <div class="stat-label">Revenue Impact</div>
       </div>
     </div>
@@ -1241,8 +1254,7 @@
       <button class="about-tab active" data-about-tab="travel">Travel with me</button>
       <button class="about-tab" data-about-tab="eat">Eat with me</button>
       <button class="about-tab" data-about-tab="music">Listen to music with me</button>
-      <button class="about-tab" data-about-tab="paintings">Paint with me</button>
-      <button class="about-tab" data-about-tab="walk">Walk with me</button>
+      <button class="about-tab" data-about-tab="bake">Bake with me</button>
     </div>
 
     <div class="about-panel active" data-about-panel="travel">
@@ -1334,27 +1346,9 @@
       </div>
     </div>
 
-    <div class="about-panel" data-about-panel="paintings">
-      <h3 class="about-panel-title">Paint with me</h3>
-      <p class="about-panel-copy">Brush strokes, color experiments, and frames that started as "just one quick sketch."</p>
-      <div class="travel-stage">
-        <div class="travel-stage-head">
-          <h4>Painting moments</h4>
-          <span id="paintings-location-count" class="travel-count">0 moments loaded</span>
-        </div>
-        <p class="travel-joke">Canvas energy: controlled chaos with very committed color choices.</p>
-        <div id="paintings-stats" class="travel-chips"></div>
-        <div class="travel-roller-shell">
-          <button class="travel-roller-btn" id="paintings-prev" type="button" aria-label="Paintings roll left">‹</button>
-          <div class="travel-grid" id="paintings-gallery"></div>
-          <button class="travel-roller-btn" id="paintings-next" type="button" aria-label="Paintings roll right">›</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="about-panel" data-about-panel="walk">
-      <h3 class="about-panel-title">Walk with me</h3>
-      <p class="about-panel-copy">Walking is where I solve problems, overthink snacks, and accidentally hit my step goal while making life plans.</p>
+    <div class="about-panel" data-about-panel="bake">
+      <h3 class="about-panel-title">Bake with me</h3>
+      <p class="about-panel-copy">Baking is where I find peace, experiment with flavors, and accidentally burn my favorite cookie recipe.</p>
       <div class="vibe-grid">
         <article class="vibe-card"><div><div class="vibe-kicker">Morning</div><h4>Sunrise Startup</h4><p>Short walks where optimism is high and notifications are still asleep.</p></div></article>
         <article class="vibe-card"><div><div class="vibe-kicker">Midday</div><h4>Debug Walk</h4><p>If something is stuck, I walk it out and suddenly become 40% wiser.</p></div></article>
